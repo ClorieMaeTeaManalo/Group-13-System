@@ -1,19 +1,11 @@
-// Import Express
 import express from 'express';
-
-// Import CORS
 import cors from 'cors';
-
-// Import Admin Routes
-import adminRoutes from './routes/adminRoutes.js';
-
-// Import Authentication Routes
-import authRoutes from './routes/authRoutes.js';
-
-// Import dotenv
 import dotenv from 'dotenv';
 
-// Load environment variables from .env
+// Import Admin Authentication Routes
+import adminAuthRoutes from './routes/adminAuthRoutes.js';
+
+// Load environment variables
 dotenv.config();
 
 // Create Express application
@@ -23,11 +15,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Admin Routes
-app.use('/api/admin', adminRoutes);
-
-// Authentication Routes
-app.use('/api/auth', authRoutes);
+// Admin Authentication Routes
+app.use('/api/admin-auth', adminAuthRoutes);
 
 // Test Route
 app.get('/', (req, res) => {
