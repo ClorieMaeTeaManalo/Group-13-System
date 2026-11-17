@@ -1,0 +1,227 @@
+/* Bentham font */
+@import url('https://fonts.googleapis.com/css2?family=Bentham&display=swap');
+
+/* Main login page */
+.admin-login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  background-color: #f3f5ef;
+}
+
+/* Login container */
+.admin-login-container {
+  width: 100%;
+  max-width: 1000px;
+  min-height: 580px;
+  display: flex;
+  background-color: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
+}
+
+/* Beach image section */
+.admin-login-image {
+  width: 50%;
+  position: relative;
+  background-color: #dce5d5;
+}
+
+.admin-login-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+/* Image text overlay */
+.image-overlay {
+  position: absolute;
+  bottom: 40px;
+  left: 30px;
+  right: 25px;
+  color: white;
+  z-index: 1;
+}
+
+/* Resort name */
+.image-overlay h1 {
+  font-family: 'Bentham', serif;
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 1.15;
+  margin-bottom: 15px;
+}
+
+/* Resort tagline */
+.image-overlay p {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  line-height: 1.8;
+  max-width: 320px;
+  color: #f5f5f5;
+}
+
+/* Login form section */
+.admin-login-form-section {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.admin-login-content {
+  width: 100%;
+  max-width: 350px;
+}
+
+/* Form headings */
+.admin-label {
+  color: #71866a;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.admin-login-content h2 {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  color: #29382b;
+  font-family: Georgia, serif;
+  font-weight: normal;
+}
+
+.admin-subtitle {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+/* Form labels */
+.admin-login-content label {
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 18px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #39483a;
+}
+
+/* Input fields */
+.admin-login-content input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #d8ded5;
+  border-radius: 7px;
+  font-size: 14px;
+  outline: none;
+}
+
+.admin-login-content input:focus {
+  border-color: #71866a;
+}
+
+/* Sign in button */
+.admin-login-content button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 25px;
+  border: none;
+  border-radius: 7px;
+  background-color: #647d5c;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.admin-login-content button:hover {
+  background-color: #4f6848;
+}
+
+.admin-login-content button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Error message */
+.login-error {
+  margin-top: 12px;
+  color: #c0392b;
+  font-size: 13px;
+}
+
+/* Create account text */
+.admin-register-link {
+  margin-top: 20px;
+  text-align: center;
+  color: #888;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.admin-register-link a {
+  color: #647d5c;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 3px;
+  transition: color 0.2s ease;
+}
+
+.admin-register-link a:hover {
+  color: #394f34;
+  text-decoration: underline;
+}
+
+/* Footer */
+.admin-footer {
+  margin-top: 30px;
+  text-align: center;
+  color: #999;
+  font-size: 11px;
+}
+
+/* Mobile layout */
+@media (max-width: 700px) {
+  .admin-login-page {
+    padding: 15px;
+  }
+
+  .admin-login-container {
+    flex-direction: column;
+  }
+
+  .admin-login-image {
+    width: 100%;
+    height: 220px;
+  }
+
+  .admin-login-form-section {
+    width: 100%;
+    padding: 30px 25px;
+  }
+
+  .image-overlay {
+    bottom: 25px;
+    left: 22px;
+  }
+
+  .image-overlay h1 {
+    font-size: 32px;
+  }
+
+  .image-overlay p {
+    font-size: 11px;
+    max-width: 280px;
+  }
+}
