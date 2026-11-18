@@ -5,6 +5,9 @@ import dotenv from 'dotenv';
 // Import Admin Authentication Routes
 import adminAuthRoutes from './routes/adminAuthRoutes.js';
 
+// Staff 
+import staffRoutes from './routes/staffRoutes.js';
+
 // Load environment variables
 dotenv.config();
 
@@ -17,6 +20,9 @@ app.use(express.json());
 
 // Admin Authentication Routes
 app.use('/api/admin-auth', adminAuthRoutes);
+
+// Staff Routes
+app.use('/api/staff', staffRoutes);
 
 // Test Route
 app.get('/', (req, res) => {
