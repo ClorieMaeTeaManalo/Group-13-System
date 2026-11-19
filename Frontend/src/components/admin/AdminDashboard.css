@@ -1,0 +1,311 @@
+/* Main Dashboard Layout */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f7f0e4;
+  font-family: Arial, sans-serif;
+  width: 100%;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 250px;
+  min-height: 100vh;
+  background: #694638;
+  color: #fff8ed;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  font-family: Georgia, serif;
+}
+
+.admin-sidebar h2 {
+  font-family: Georgia, serif;
+  font-size: 25px;
+  margin-bottom: 8px;
+  color: #fff8ed;
+}
+
+.admin-sidebar p {
+  font-family: Georgia, serif;
+  color: #e8d4c0;
+  font-size: 13px;
+  margin-bottom: 40px;
+}
+
+.admin-sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.admin-sidebar nav li {
+  font-family: Georgia, serif;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  border-radius: 9px;
+  color: #f4e7d8;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-sidebar nav li:first-child {
+  background-color: #b97855;
+  color: white;
+  font-weight: bold;
+}
+
+.admin-sidebar nav li:hover {
+  background-color: #8c604b;
+  color: white;
+}
+
+/* Dashboard Content */
+.admin-content {
+  flex: 1;
+  min-width: 0;
+  padding: 40px;
+  box-sizing: border-box;
+  background-color: #f7f0e4;
+}
+
+.admin-content h1 {
+  color: #694638;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.admin-content > p {
+  color: #806b5b;
+  font-size: 15px;
+  margin-bottom: 35px;
+}
+
+/* Dashboard Cards */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 25px;
+}
+
+.dashboard-card {
+  background-color: #fffdf9;
+  padding: 28px;
+  border-radius: 15px;
+  border: 1px solid #eadbc9;
+  box-shadow: 0 4px 15px rgba(105, 70, 56, 0.06);
+  transition: 0.3s;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px rgba(105, 70, 56, 0.12);
+}
+
+.dashboard-card h3 {
+  color: #806653;
+  font-size: 15px;
+  font-weight: normal;
+  margin-bottom: 18px;
+}
+
+.dashboard-card h2 {
+  color: #b97855;
+  font-size: 34px;
+  margin: 0;
+}
+
+/* Welcome Banner */
+.dashboard-banner {
+  position: relative;
+  min-height: 280px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 35px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 8px 25px rgba(105, 70, 56, 0.12);
+}
+
+.banner-overlay {
+  width: 100%;
+  min-height: 280px;
+  padding: 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 245, 224, 0.94),
+    rgba(255, 245, 224, 0.70),
+    rgba(255, 245, 224, 0.08)
+  );
+}
+
+.banner-subtitle {
+  color: #a8794c;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+}
+
+.banner-overlay h1 {
+  color: #694638;
+  font-family: Georgia, serif;
+  font-size: 42px;
+  margin: 0 0 12px;
+}
+
+.banner-description {
+  color: #806653;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+}
+
+/* Tablet Screen */
+@media screen and (max-width: 1024px) {
+  .admin-sidebar {
+    width: 220px;
+    padding: 25px 15px;
+  }
+
+  .admin-content {
+    padding: 30px 25px;
+  }
+
+  .dashboard-cards {
+    gap: 16px;
+  }
+
+  .dashboard-card {
+    padding: 22px;
+  }
+}
+
+/* Mobile Screen */
+@media screen and (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    min-height: auto;
+    padding: 20px;
+  }
+
+  .admin-sidebar h2 {
+    font-size: 22px;
+  }
+
+  .admin-sidebar p {
+    margin-bottom: 18px;
+  }
+
+  .admin-sidebar nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .admin-sidebar nav li {
+    margin: 0;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .admin-content {
+    width: 100%;
+    padding: 25px 18px;
+  }
+
+  .admin-content h1 {
+    font-size: 25px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .dashboard-card {
+    padding: 18px;
+  }
+
+  .dashboard-card h3 {
+    font-size: 13px;
+  }
+
+  .dashboard-card h2 {
+    font-size: 28px;
+  }
+
+  .dashboard-banner,
+  .banner-overlay {
+    min-height: 230px;
+  }
+
+  .banner-overlay {
+    padding: 25px;
+  }
+
+  .banner-overlay h1 {
+    font-size: 30px;
+  }
+
+  .banner-description {
+    font-size: 15px;
+  }
+}
+
+/* Small Mobile Screen */
+@media screen and (max-width: 480px) {
+  .admin-content {
+    padding: 20px 14px;
+  }
+
+  .admin-content h1 {
+    font-size: 22px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-card {
+    padding: 20px;
+  }
+
+  .admin-sidebar nav li {
+    font-size: 12px;
+    padding: 9px 10px;
+  }
+
+  .dashboard-banner,
+  .banner-overlay {
+    min-height: 190px;
+  }
+
+  .banner-overlay {
+    padding: 20px;
+  }
+
+  .banner-overlay h1 {
+    font-size: 25px;
+  }
+
+  .banner-subtitle {
+    font-size: 11px;
+  }
+}
