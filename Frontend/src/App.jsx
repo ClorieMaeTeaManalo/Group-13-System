@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
 import MainLogin from './components/admin/MainLogin.jsx';
+import AdminDashboard from './components/admin/AdminDashboard.jsx';
 
 function App() {
   // Store logged-in administrator
   const [admin, setAdmin] = useState(null);
 
-  // Display login success
-  if (admin) {
-    return (
-      <div>
-        <h1>Login Successful!</h1>
-        <p>Welcome, {admin.name}!</p>
-        <p>Administrator access granted.</p>
-      </div>
-    );
-  }
+// Display administrator dashboard after successful login
+if (admin) {
+  return <AdminDashboard />;
+}
 
   return (
    <MainLogin onLoginSuccess={setAdmin} />
