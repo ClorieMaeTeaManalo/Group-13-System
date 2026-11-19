@@ -5,6 +5,9 @@ import dotenv from 'dotenv';
 // Import Admin Authentication Routes
 import adminAuthRoutes from './routes/adminAuthRoutes.js';
 
+// Import Admin Dashboard Routes
+import adminDashboardRoutes from './routes/adminDashboardRoutes.js';
+
 // Staff 
 import staffRoutes from './routes/staffRoutes.js';
 
@@ -20,6 +23,9 @@ app.use(express.json());
 
 // Admin Authentication Routes
 app.use('/api/admin-auth', adminAuthRoutes);
+
+// Admin Dashboard Routes
+app.use('/api/admin-dashboard', adminDashboardRoutes);
 
 // Staff Routes
 app.use('/api/staff', staffRoutes);
