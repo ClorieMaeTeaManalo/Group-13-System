@@ -11,6 +11,9 @@ import adminDashboardRoutes from './routes/adminDashboardRoutes.js';
 // Staff 
 import staffRoutes from './routes/staffRoutes.js';
 
+// Customer Registration Routes
+import customerRoutes from './routes/customerRoutes.js';
+
 // Load environment variables
 dotenv.config();
 
@@ -29,6 +32,9 @@ app.use('/api/admin-dashboard', adminDashboardRoutes);
 
 // Staff Routes
 app.use('/api/staff', staffRoutes);
+
+// Customer Routes
+app.use('/api/customers', customerRoutes);
 
 // Test Route
 app.get('/', (req, res) => {
