@@ -1,0 +1,191 @@
+
+.customer-register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background: #F4F5EF;
+  font-family: Arial, sans-serif;
+}
+
+.customer-register-container {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 650px;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.10);
+}
+
+/* Beach image */
+.customer-register-image {
+  position: relative;
+  width: 50%;
+  min-height: 650px;
+}
+
+.customer-register-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+.customer-image-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 40px;
+  color: white;
+  background: linear-gradient(
+    transparent,
+    rgba(0, 0, 0, 0.65)
+  );
+}
+
+.customer-image-overlay h1 {
+  font-family: Georgia, serif;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.customer-image-overlay p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Registration form */
+.customer-register-content {
+  width: 50%;
+  padding: 45px 55px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.customer-register-label {
+  color: #647C5D;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.customer-register-content h2 {
+  color: #203D32;
+  font-family: Georgia, serif;
+  font-size: 32px;
+  margin: 12px 0;
+}
+
+.customer-register-subtitle {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.customer-register-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-register-content label {
+  color: #203D32;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.customer-register-content input {
+  padding: 13px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  outline: none;
+  font-size: 14px;
+}
+
+.customer-register-content input:focus {
+  border-color: #647C5D;
+}
+
+.customer-register-content form button {
+  padding: 14px;
+  margin-top: 5px;
+  background: #647C5D;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.customer-register-content form button:hover {
+  background: #203D32;
+}
+
+.customer-register-content button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.customer-register-message {
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.customer-register-message.error {
+  color: #d93025;
+}
+
+.customer-register-message.success {
+  color: #238636;
+}
+
+.customer-register-login {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 20px;
+  color: #666;
+}
+
+.customer-register-login button {
+  background: none;
+  border: none;
+  color: #647C5D;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.customer-register-footer {
+  text-align: center;
+  color: #999;
+  font-size: 11px;
+  margin-top: 25px;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .customer-register-page {
+    padding: 15px;
+  }
+
+  .customer-register-container {
+    flex-direction: column;
+  }
+
+  .customer-register-image {
+    width: 100%;
+    min-height: 220px;
+  }
+
+  .customer-register-content {
+    width: 100%;
+    padding: 30px 25px;
+  }
+}

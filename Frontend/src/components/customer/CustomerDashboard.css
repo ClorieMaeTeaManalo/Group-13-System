@@ -1,0 +1,79 @@
+
+/* Main dashboard layout */
+.customer-dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #F4F5EF;
+  font-family: Arial, sans-serif;
+}
+
+/* Dashboard header */
+.customer-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 50px;
+  background: #203D32;
+  color: white;
+}
+
+/* Resort name */
+.customer-dashboard-header h2 {
+  font-family: Georgia, serif;
+  margin: 0;
+}
+
+/* Customer portal label */
+.customer-dashboard-header span {
+  font-size: 13px;
+}
+
+/* Main dashboard content */
+.customer-dashboard-content {
+  flex: 1;
+  padding: 70px 30px;
+  text-align: center;
+}
+
+/* Welcome heading */
+.customer-dashboard-content h1 {
+  color: #203D32;
+  font-family: Georgia, serif;
+  font-size: 32px;
+}
+
+/* Welcome description */
+.customer-dashboard-content > p {
+  color: #666;
+  font-size: 15px;
+}
+
+/* Dashboard information card */
+.customer-dashboard-card {
+  max-width: 550px;
+  margin: 35px auto;
+  padding: 35px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Card heading */
+.customer-dashboard-card h2 {
+  color: #647C5D;
+}
+
+/* Card description */
+.customer-dashboard-card p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Dashboard footer */
+.customer-dashboard-footer {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+}
