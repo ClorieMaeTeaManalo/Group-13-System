@@ -1,0 +1,180 @@
+
+/* Main login container */
+.customer-login-container {
+  display: flex;
+  width: 80%;
+  max-width: 1100px;
+  min-height: 500px;
+  margin: 50px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+  font-family: Arial, sans-serif;
+}
+
+/* Left side image */
+.customer-login-image {
+  width: 50%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+.customer-login-overlay {
+  width: 100%;
+  padding: 30px;
+  color: white;
+  background: linear-gradient(
+    transparent,
+    rgba(0, 0, 0, 0.65)
+  );
+}
+
+.customer-login-overlay h1 {
+  font-family: Georgia, serif;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.customer-login-overlay p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Right side form section */
+.customer-login-form-section {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.customer-login-form {
+  width: 100%;
+  max-width: 350px;
+}
+
+.customer-login-form small {
+  color: #607d5b;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+}
+
+.customer-login-form h2 {
+  font-family: Georgia, serif;
+  font-size: 30px;
+  font-weight: normal;
+  margin: 12px 0 5px;
+}
+
+.login-subtitle {
+  color: #777;
+  font-size: 13px;
+  margin-bottom: 30px;
+}
+
+/* Input labels */
+.customer-login-form label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 7px;
+  margin-top: 15px;
+}
+
+/* Input fields */
+.customer-login-form input {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #d1d9cf;
+  border-radius: 5px;
+  outline: none;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.customer-login-form input:focus {
+  border-color: #607d5b;
+}
+
+/* Error message */
+.login-error {
+  color: #e53935;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+/* Sign in button */
+.customer-login-form button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  background: #607d5b;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.customer-login-form button:hover {
+  background: #4e694a;
+}
+
+.customer-login-form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Create account text */
+.create-account-text {
+  text-align: center;
+  font-size: 12px;
+  color: #777;
+  margin-top: 20px;
+}
+
+.create-account-text span {
+  color: #607d5b;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.create-account-text span:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+.login-footer {
+  text-align: center;
+  color: #999;
+  font-size: 11px;
+  margin-top: 30px;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .customer-login-container {
+    width: 95%;
+    flex-direction: column;
+  }
+
+  .customer-login-image,
+  .customer-login-form-section {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .customer-login-image {
+    min-height: 250px;
+  }
+
+  .customer-login-form-section {
+    padding: 30px 20px;
+  }
+}
