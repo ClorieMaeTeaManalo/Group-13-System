@@ -7,6 +7,6 @@ const router = express.Router();
 router.get('/cleaning-tasks/:staffId', staffController.getCleaningTasks);
 
 // Update cleaning task status
-router.patch('/cleaning-tasks/:cleaningId/status', staffController.updateCleaningTaskStatus);
+router.put('/cleaning-tasks/:cleaningId/status', staffController.updateCleaningTaskStatus);
 
 export default router;
