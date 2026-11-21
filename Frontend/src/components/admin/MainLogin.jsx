@@ -8,6 +8,9 @@ function MainLogin({ onLoginSuccess }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Show or hide password
+const [showPassword, setShowPassword] = useState(false);
+
   // Store login status and messages
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -124,14 +127,37 @@ function MainLogin({ onLoginSuccess }) {
               />
 
               <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+
+             <div className="password-input-container">
+                <input
+               id="password"
+               type={showPassword ? 'text' : 'password'}
+               placeholder="Enter your password"
+               value={password}
+               onChange={(e) => setPassword(e.target.value)}
+               required
+               />
+
+        <button
+  type="button"
+  className="toggle-password"
+  onClick={() => setShowPassword(!showPassword)}
+  aria-label={showPassword ? 'Hide password' : 'Show password'}
+>
+  {showPassword ? (
+    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+      <circle cx="12" cy="12" r="3" />
+      <path d="M3 3l18 18" />
+    </svg>
+  ) : (
+    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )}
+</button>
+</div>
 
               {/* Display login errors */}
               {error && <p className="login-error">{error}</p>}
