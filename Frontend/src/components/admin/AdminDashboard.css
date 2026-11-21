@@ -3,36 +3,45 @@
   display: flex;
   min-height: 100vh;
   background-color: #f7f0e4;
-  font-family: Arial, sans-serif;
   width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* Apply the Same Font to All Dashboard Elements */
+.admin-layout,
+.admin-layout * {
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
 }
 
 /* Sidebar */
 .admin-sidebar {
   width: 250px;
-  min-height: 100vh;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
   background: #694638;
   color: #fff8ed;
   padding: 30px 20px;
-  box-sizing: border-box;
   flex-shrink: 0;
-  font-family: Georgia, serif;
+  overflow-y: auto;
+  z-index: 1000;
 }
 
 .admin-sidebar h2 {
-  font-family: Georgia, serif;
   font-size: 25px;
   margin-bottom: 8px;
   color: #fff8ed;
 }
 
 .admin-sidebar p {
-  font-family: Georgia, serif;
   color: #e8d4c0;
   font-size: 13px;
   margin-bottom: 40px;
 }
 
+/* Sidebar Menu */
 .admin-sidebar nav ul {
   list-style: none;
   padding: 0;
@@ -40,7 +49,6 @@
 }
 
 .admin-sidebar nav li {
-  font-family: Georgia, serif;
   padding: 14px 16px;
   margin-bottom: 10px;
   border-radius: 9px;
@@ -50,23 +58,25 @@
   transition: 0.3s;
 }
 
-.admin-sidebar nav li:first-child {
+/* Active Sidebar Menu */
+.admin-sidebar nav li.active {
   background-color: #b97855;
   color: white;
   font-weight: bold;
 }
 
+/* Sidebar Hover Effect */
 .admin-sidebar nav li:hover {
   background-color: #8c604b;
   color: white;
 }
 
-/* Dashboard Content */
+/* Dashboard Content beside Fixed Sidebar */
 .admin-content {
   flex: 1;
   min-width: 0;
+  margin-left: 250px;
   padding: 40px;
-  box-sizing: border-box;
   background-color: #f7f0e4;
 }
 
@@ -98,7 +108,6 @@
   box-shadow: 0 4px 15px rgba(105, 70, 56, 0.06);
   transition: 0.3s;
   min-width: 0;
-  box-sizing: border-box;
 }
 
 .dashboard-card:hover {
@@ -139,7 +148,6 @@
   width: 100%;
   min-height: 280px;
   padding: 40px;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -161,16 +169,97 @@
 
 .banner-overlay h1 {
   color: #694638;
-  font-family: Georgia, serif;
   font-size: 42px;
   margin: 0 0 12px;
 }
 
 .banner-description {
   color: #806653;
-  font-family: Georgia, serif;
   font-size: 18px;
   font-style: italic;
+}
+
+/* Staff Account Creation */
+.staff-account-section {
+  background-color: #fffdf9;
+  padding: 30px;
+  margin-top: 35px;
+  border-radius: 15px;
+  border: 1px solid #eadbc9;
+  box-shadow: 0 4px 15px rgba(105, 70, 56, 0.06);
+}
+
+.staff-account-section h2 {
+  color: #694638;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.staff-account-section p {
+  color: #806b5b;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.staff-account-section form {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+}
+
+.staff-account-section label {
+  color: #694638;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.staff-account-section input {
+  padding: 13px;
+  margin-bottom: 18px;
+  border: 1px solid #d8c5b2;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+}
+
+.staff-account-section input:focus {
+  border-color: #b97855;
+}
+
+/* Create Staff Button */
+.staff-account-section button {
+  background-color: #694638;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 20px;
+}
+
+.staff-account-section button:hover {
+  background-color: #8c604b;
+}
+
+.staff-account-section button:disabled {
+  background-color: #a99589;
+  cursor: not-allowed;
+}
+
+/* Success and Error Messages */
+.staff-success {
+  color: #287a45 !important;
+  font-weight: bold;
+}
+
+.staff-error {
+  color: #c0392b !important;
+  font-weight: bold;
 }
 
 /* Tablet Screen */
@@ -181,8 +270,9 @@
   }
 
   .admin-content {
-    padding: 30px 25px;
-  }
+  margin-left: 220px;
+  padding: 30px 25px;
+}
 
   .dashboard-cards {
     gap: 16px;
@@ -200,10 +290,12 @@
   }
 
   .admin-sidebar {
-    width: 100%;
-    min-height: auto;
-    padding: 20px;
-  }
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: auto;
+  padding: 20px;
+}
 
   .admin-sidebar h2 {
     font-size: 22px;
@@ -225,10 +317,11 @@
     font-size: 13px;
   }
 
-  .admin-content {
-    width: 100%;
-    padding: 25px 18px;
-  }
+   .admin-content {
+  width: 100%;
+  margin-left: 0;
+  padding: 25px 18px;
+}
 
   .admin-content h1 {
     font-size: 25px;
@@ -308,4 +401,14 @@
   .banner-subtitle {
     font-size: 11px;
   }
+
+  .staff-account-section {
+    padding: 20px;
+  }
+
+  .staff-account-section h2 {
+    font-size: 21px;
+  }
 }
+
+
