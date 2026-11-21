@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import "./CustomerRegistration.css";
 import beachImage from "../../assets/bella-beach.jpg";
@@ -56,8 +55,8 @@ function CustomerRegistration({ onBackToLogin, onRegisterSuccess }) {
         return;
       }
 
-      // Proceed to customer dashboard
-      onRegisterSuccess();
+      // Pass registered customer information to App.jsx
+      onRegisterSuccess(data.data);
 
     } catch (error) {
       // Handle connection errors

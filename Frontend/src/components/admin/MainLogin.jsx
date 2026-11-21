@@ -12,15 +12,15 @@ function MainLogin({ onLoginSuccess }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Handle user login
+  // Handle administrator and customer login
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      // Send login details to the backend
-      const response = await fetch(
+      // Try administrator login first
+      const adminResponse = await fetch(
         'http://localhost:3000/api/admin-auth/login',
         {
           method: 'POST',
@@ -31,17 +31,42 @@ function MainLogin({ onLoginSuccess }) {
         }
       );
 
-      // Read the backend response
-      const data = await response.json();
+      const adminData = await adminResponse.json();
 
-      // Display an error for invalid credentials
-      if (!response.ok) {
-        setError(data.message || 'Login failed.');
+      // If administrator login is successful
+      if (adminResponse.ok) {
+        onLoginSuccess(adminData.admin);
         return;
       }
 
-      // Pass administrator details to App.jsx
-      onLoginSuccess(data.admin);
+      // Do not continue if there is a server or validation error
+      if (adminResponse.status !== 401) {
+        setError(adminData.message || 'Login failed.');
+        return;
+      }
+
+      // If not an administrator, try customer login
+      const customerResponse = await fetch(
+        'http://localhost:3000/api/customers/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+
+      const customerData = await customerResponse.json();
+
+      // If customer login is successful
+      if (customerResponse.ok) {
+        onLoginSuccess(customerData.customer);
+        return;
+      }
+
+      // Display login error
+      setError(customerData.message || 'Invalid email or password.');
 
     } catch (error) {
       // Handle server connection errors
@@ -64,8 +89,10 @@ function MainLogin({ onLoginSuccess }) {
 
           <div className="image-overlay">
             <h1>Bella Beach Resort</h1>
-            <p>Escape the everyday and enjoy the beauty of the beach.
-  Relax, recharge, and create unforgettable moments.</p>
+            <p>
+              Escape the everyday and enjoy the beauty of the beach.
+              Relax, recharge, and create unforgettable moments.
+            </p>
           </div>
         </div>
 
