@@ -16,6 +16,9 @@ import customerRoutes from './routes/customerRoutes.js';
 
 import customerLoginRoutes from './routes/customerLoginRoutes.js';
 
+// Staff Account Creation Routes
+import accountRoutes from './routes/AccountRoutes.js';
+
 // Load environment variables
 dotenv.config();
 
@@ -39,6 +42,9 @@ app.use('/api/staff', staffRoutes);
 app.use('/api/customers', customerRoutes);
 
 app.use('/api/customers', customerLoginRoutes);
+
+// Staff Account Creation Routes
+app.use('/api/accounts', accountRoutes);
 
 // Test Route
 app.get('/', (req, res) => {
