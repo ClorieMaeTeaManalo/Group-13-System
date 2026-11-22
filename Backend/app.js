@@ -11,6 +11,8 @@ import adminDashboardRoutes from './routes/adminDashboardRoutes.js';
 // Staff 
 import staffCleaningTaskRoutes from './routes/StaffCleaningTaskRoutes.js';
 
+import staffCleaningStatusRoutes from './routes/StaffCleaningStatusRoutes.js';
+
 // Customer Registration Routes
 import customerRoutes from './routes/customerRoutes.js';
 
@@ -37,6 +39,8 @@ app.use('/api/admin-dashboard', adminDashboardRoutes);
 
 // Staff Routes
 app.use('/api/staff', staffCleaningTaskRoutes);
+
+app.use('/api/staff', staffCleaningStatusRoutes);
 
 // Customer Routes
 app.use('/api/customers', customerRoutes);
