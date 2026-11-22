@@ -33,3 +33,26 @@ export const getAllStaffAccounts = async () => {
 };
 
 
+ // Find staff account by ID
+export const findStaffById = async (staffId) => {
+  const [rows] = await pool.query(
+    'SELECT staff_id, role FROM staff WHERE staff_id = ?',
+    [staffId]
+  );
+
+  return rows[0];
+};
+
+
+// Delete a staff account using its ID
+export const deleteStaffAccount = async (staffId) => {
+  const [result] = await pool.query(
+    'DELETE FROM staff WHERE staff_id = ? AND role = ?',
+    [staffId, 'staff']
+  );
+
+  return result.affectedRows;
+};
+
+
+
