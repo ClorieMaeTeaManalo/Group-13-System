@@ -1,29 +1,6 @@
+import * as staffStatusService from '../services/StaffCleaningStatusService.js';
 
-import * as staffService from '../services/staffService.js';
-
-export const getCleaningTasks = async (req, res) => {
-    const { staffId } = req.params;
-
-    try {
-        const result = await staffService.getCleaningTasks(staffId);
-
-        res.status(200).json({
-            success: true,
-            message: 'Cleaning tasks retrieved successfully',
-            data: result
-        });
-
-    } catch (error) {
-        console.log(error);
-
-        res.status(500).json({
-            success: false,
-            message: 'Failed to retrieve cleaning tasks'
-        });
-    }
-};
-
-// Sa update ng cleaning task status
+// Update sa cleaning task status
 export const updateCleaningTaskStatus = async (req, res) => {
 
     const { cleaningId } = req.params;
@@ -38,7 +15,7 @@ export const updateCleaningTaskStatus = async (req, res) => {
             });
         }
 
-        const result = await staffService.updateCleaningTaskStatus(
+        const result = await staffStatusService.updateCleaningTaskStatus(
             cleaningId,
             staffId,
             status.toLowerCase()
