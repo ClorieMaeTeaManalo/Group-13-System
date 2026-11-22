@@ -40,3 +40,33 @@ export const createStaffAccount = async (name, email, password) => {
 export const getAllStaffAccounts = async () => {
   return await AccountModel.getAllStaffAccounts();
 };
+
+
+
+ // Delete staff account
+export const deleteStaffAccount = async (staffId) => {
+  // Validate staff ID
+  if (!staffId || !Number.isInteger(Number(staffId)) || Number(staffId) <= 0) {
+    throw new Error('Invalid staff account ID.');
+  }
+
+  // Find the selected staff account
+  const existingStaff = await AccountModel.findStaffById(staffId);
+
+  // Check if account exists
+  if (!existingStaff) {
+    throw new Error('Staff account not found.');
+  }
+
+  // Check if account belongs to staff role
+  if (existingStaff.role !== 'staff') {
+    throw new Error('Only staff accounts can be deleted.');
+  }
+
+  // Delete staff account
+  await AccountModel.deleteStaffAccount(staffId);
+
+  return {
+    message: 'Staff account deleted successfully.'
+  };
+};

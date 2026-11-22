@@ -58,3 +58,24 @@ export const getAllStaffAccounts = async (req, res) => {
     });
   }
 };
+
+ // Delete staff account
+export const deleteStaffAccount = async (req, res) => {
+  try {
+    const { staffId } = req.params;
+
+    const result = await AccountService.deleteStaffAccount(staffId);
+
+    return res.status(200).json({
+      success: true,
+      message: result.message
+    });
+
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
