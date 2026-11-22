@@ -31,6 +31,13 @@ const [staffList, setStaffList] = useState([]);
 const [staffListLoading, setStaffListLoading] = useState(false);
 const [staffListError, setStaffListError] = useState('');
 
+// Store selected staff account for deletion
+const [selectedStaffId, setSelectedStaffId] = useState(null);
+
+// Control delete confirmation modal
+const [showDeleteModal, setShowDeleteModal] = useState(false);
+const [deleteLoading, setDeleteLoading] = useState(false);
+
 // Store staff directory search input
 const [staffSearch, setStaffSearch] = useState('');
 
@@ -101,6 +108,45 @@ useEffect(() => {
       setStaffListLoading(false);
     }
   };
+
+   // Open delete confirmation modal
+const handleDeleteStaff = (staffId) => {
+  setSelectedStaffId(staffId);
+  setShowDeleteModal(true);
+};
+
+// Confirm and delete staff account
+const confirmDeleteStaff = async () => {
+  if (!selectedStaffId) return;
+
+  setDeleteLoading(true);
+
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/accounts/staff/${selectedStaffId}`,
+      {
+        method: 'DELETE'
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || 'Failed to delete staff account.');
+    }
+
+    setShowDeleteModal(false);
+    setSelectedStaffId(null);
+
+    await fetchStaffAccounts();
+
+  } catch (error) {
+    console.error('Delete Staff Error:', error);
+    alert(error.message);
+  } finally {
+    setDeleteLoading(false);
+  }
+};
 
     // Create staff account
   const handleCreateStaff = async (e) => {
@@ -346,6 +392,7 @@ useEffect(() => {
                 <th>Email</th>
                 <th>Role</th>
                 <th>Date Created</th>
+                <th>Action</th>    
               </tr>
             </thead>
 
@@ -359,6 +406,15 @@ useEffect(() => {
                   <td>
                     {new Date(staff.created_at).toLocaleDateString()}
                   </td>
+                  <td>
+                <button
+                 type="button"
+                  className="delete-staff-btn"
+                  onClick={() => handleDeleteStaff(staff.staff_id)}
+                  >
+                  Delete
+                </button>
+                </td>
                 </tr>
               ))}
             </tbody>
@@ -375,6 +431,50 @@ useEffect(() => {
   {activePage !== 'Dashboard' && activePage !== 'Staff Accounts' && (
     <h2>{activePage}</h2>
   )}
+
+
+{/* Delete Confirmation Modal */}
+{showDeleteModal && (
+  <div className="delete-modal-overlay">
+    <div className="delete-modal">
+
+      <div className="delete-modal-icon">
+        <span>!</span>
+      </div>
+
+      <h2>Delete Staff Account</h2>
+
+      <p>
+        Are you sure you want to delete this staff account?
+        This action cannot be undone.
+      </p>
+
+      <div className="delete-modal-actions">
+        <button
+          type="button"
+          className="cancel-delete-btn"
+          onClick={() => {
+            setShowDeleteModal(false);
+            setSelectedStaffId(null);
+          }}
+          disabled={deleteLoading}
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          className="confirm-delete-btn"
+          onClick={confirmDeleteStaff}
+          disabled={deleteLoading}
+        >
+          {deleteLoading ? 'Deleting...' : 'Delete Account'}
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
 
 </main>
     </div>
