@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AdminSidebar from './AdminSidebar.jsx';
 import './AdminDashboard.css';
 import beachImage from '../../assets/bella-beachh.jpg';
+import backgroundImage from '../../assets/beach2.jpg';
 
 function AdminDashboard() {
   // Store dashboard summary
@@ -25,8 +26,29 @@ const [staffMessage, setStaffMessage] = useState('');
 const [staffError, setStaffError] = useState('');
 const [staffLoading, setStaffLoading] = useState(false);
 
+// Store registered staff accounts
+const [staffList, setStaffList] = useState([]);
+const [staffListLoading, setStaffListLoading] = useState(false);
+const [staffListError, setStaffListError] = useState('');
+
+// Store staff directory search input
+const [staffSearch, setStaffSearch] = useState('');
+
+// Filter staff accounts by name or email
+const filteredStaff = staffList.filter((staff) =>
+  (staff.name || '').toLowerCase().includes(staffSearch.toLowerCase()) ||
+  (staff.email || '').toLowerCase().includes(staffSearch.toLowerCase())
+);
+
 // Store the currently selected sidebar page
 const [activePage, setActivePage] = useState('Dashboard');
+
+// Fetch staff accounts when Staff Accounts page is opened
+useEffect(() => {
+  if (activePage === 'Staff Accounts') {
+    fetchStaffAccounts();
+  }
+}, [activePage]);
 
   // Get dashboard data from the backend
   useEffect(() => {
@@ -53,6 +75,32 @@ const [activePage, setActivePage] = useState('Dashboard');
 
     fetchDashboardSummary();
   }, []);
+
+    // Get all registered staff accounts
+  const fetchStaffAccounts = async () => {
+    setStaffListLoading(true);
+    setStaffListError('');
+
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/accounts/staff'
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Failed to load staff accounts.');
+      }
+
+      setStaffList(result.staff);
+
+    } catch (error) {
+      console.error('Staff Accounts Error:', error);
+      setStaffListError(error.message);
+    } finally {
+      setStaffListLoading(false);
+    }
+  };
 
     // Create staff account
   const handleCreateStaff = async (e) => {
@@ -86,6 +134,9 @@ const [activePage, setActivePage] = useState('Dashboard');
 
       setStaffMessage('Staff account created successfully!');
 
+      // Refresh staff table after successful account creation
+      await fetchStaffAccounts();
+
       // Clear form fields
       setStaffName('');
       setStaffEmail('');
@@ -104,7 +155,19 @@ const [activePage, setActivePage] = useState('Dashboard');
   activePage={activePage}
   onPageChange={setActivePage}
 />
-      <main className="admin-content">
+     <main
+  className="admin-content"
+  style={
+    activePage === 'Staff Accounts'
+      ? {
+          backgroundImage: `linear-gradient(rgba(247, 240, 228, 0.25), rgba(247, 240, 228, 0.25)), url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }
+      : {}
+  }
+>
 
   {/* Display Dashboard Page */}
   {activePage === 'Dashboard' && (
@@ -160,9 +223,32 @@ const [activePage, setActivePage] = useState('Dashboard');
     </>
   )}
 
-  {/* Display Staff Accounts Page */}
-  {activePage === 'Staff Accounts' && (
+{activePage === 'Staff Accounts' && (
+  <div className="staff-management-page">
+
+    {/* Staff Management Header */}
+    <div className="staff-page-header">
+      <div>
+        <p className="staff-header-label">BELLA BEACH RESORT</p>
+        <h1>Staff Management</h1>
+        <p>Manage and review all registered staff accounts.</p>
+      </div>
+    </div>
+
+    {/* Total Staff Summary */}
+    <div className="staff-summary-card">
+      <div>
+        <p>Total Staff Members</p>
+        <h2>{staffListLoading ? '...' : staffList.length}</h2>
+        <span>Registered staff accounts</span>
+      </div>
+
+
+    </div>
+
     <div className="staff-account-section">
+
+
 
       {/* Staff Account Form Heading */}
       <h2>Create Staff Account</h2>
@@ -216,8 +302,69 @@ const [activePage, setActivePage] = useState('Dashboard');
           {staffLoading ? 'Creating Account...' : 'Create Staff Account'}
         </button>
 
-    
-      </form>
+            </form>
+
+    </div>
+
+    {/* Staff Directory */}
+    <div className="staff-list-section">  
+
+  {/* Staff Directory Heading */}
+  <div className="staff-directory-header">
+    <div>
+      <h2>Staff Directory</h2>
+      <p>View and search all registered staff accounts.</p>
+    </div>
+  </div>
+
+  {/* Search Staff */}
+  <div className="staff-search-box">
+    <input
+      type="text"
+      placeholder="Search by staff name or email..."
+      value={staffSearch}
+      onChange={(e) => setStaffSearch(e.target.value)}
+    />
+  </div>
+
+        {staffListLoading ? (
+          <p>Loading staff accounts...</p>
+        ) : staffListError ? (
+          <p className="staff-error">{staffListError}</p>
+        ) : filteredStaff.length === 0 ? (
+  <p>
+    {staffSearch
+      ? 'No matching staff accounts found.'
+      : 'No staff accounts found.'}
+  </p>
+): (
+          <table>
+            <thead>
+              <tr>
+                <th>Staff ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Date Created</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {filteredStaff.map((staff) => (
+                <tr key={staff.staff_id}>
+                  <td>{staff.staff_id}</td>
+                  <td>{staff.name}</td>
+                  <td>{staff.email}</td>
+                  <td>{staff.role}</td>
+                  <td>
+                    {new Date(staff.created_at).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
 
       
       </div>
