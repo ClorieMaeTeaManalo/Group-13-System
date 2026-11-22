@@ -1,16 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@400;700&display=swap');
+
 /* Main Dashboard Layout */
 .admin-layout {
   display: flex;
   min-height: 100vh;
   background-color: #f7f0e4;
   width: 100%;
-  font-family: Arial, sans-serif;
+  font-family: 'Lato', sans-serif;
+  box-sizing: border-box;
 }
 
-/* Apply the Same Font to All Dashboard Elements */
-.admin-layout,
 .admin-layout * {
-  font-family: Arial, sans-serif;
+  font-family: 'Lato', sans-serif;
   box-sizing: border-box;
 }
 
@@ -27,15 +28,18 @@
   flex-shrink: 0;
   overflow-y: auto;
   z-index: 1000;
+  font-family: 'Lato', sans-serif;
 }
 
 .admin-sidebar h2 {
+  font-family: 'Playfair Display', serif;
   font-size: 25px;
   margin-bottom: 8px;
   color: #fff8ed;
 }
 
 .admin-sidebar p {
+  font-family: 'Lato', sans-serif;
   color: #e8d4c0;
   font-size: 13px;
   margin-bottom: 40px;
@@ -49,6 +53,7 @@
 }
 
 .admin-sidebar nav li {
+  font-family: 'Lato', sans-serif;
   padding: 14px 16px;
   margin-bottom: 10px;
   border-radius: 9px;
@@ -58,26 +63,31 @@
   transition: 0.3s;
 }
 
-/* Active Sidebar Menu */
 .admin-sidebar nav li.active {
   background-color: #b97855;
   color: white;
   font-weight: bold;
 }
 
-/* Sidebar Hover Effect */
 .admin-sidebar nav li:hover {
   background-color: #8c604b;
   color: white;
 }
 
-/* Dashboard Content beside Fixed Sidebar */
+/* Dashboard Content */
 .admin-content {
   flex: 1;
   min-width: 0;
   margin-left: 250px;
   padding: 40px;
   background-color: #f7f0e4;
+  font-family: 'Lato', sans-serif;
+}
+
+.admin-content h1,
+.admin-content h2,
+.admin-content h3 {
+  font-family: 'Playfair Display', serif;
 }
 
 .admin-content h1 {
@@ -87,6 +97,7 @@
 }
 
 .admin-content > p {
+  font-family: 'Lato', sans-serif;
   color: #806b5b;
   font-size: 15px;
   margin-bottom: 35px;
@@ -110,12 +121,8 @@
   min-width: 0;
 }
 
-.dashboard-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 22px rgba(105, 70, 56, 0.12);
-}
-
 .dashboard-card h3 {
+  font-family: 'Playfair Display', serif;
   color: #806653;
   font-size: 15px;
   font-weight: normal;
@@ -123,9 +130,15 @@
 }
 
 .dashboard-card h2 {
+  font-family: 'Playfair Display', serif;
   color: #b97855;
   font-size: 34px;
   margin: 0;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px rgba(105, 70, 56, 0.12);
 }
 
 /* Welcome Banner */
@@ -160,6 +173,7 @@
 }
 
 .banner-subtitle {
+  font-family: 'Lato', sans-serif;
   color: #a8794c;
   font-size: 13px;
   font-weight: bold;
@@ -168,12 +182,14 @@
 }
 
 .banner-overlay h1 {
+  font-family: 'Playfair Display', serif;
   color: #694638;
   font-size: 42px;
   margin: 0 0 12px;
 }
 
 .banner-description {
+  font-family: 'Lato', sans-serif;
   color: #806653;
   font-size: 18px;
   font-style: italic;
@@ -190,12 +206,14 @@
 }
 
 .staff-account-section h2 {
+  font-family: 'Playfair Display', serif;
   color: #694638;
   font-size: 24px;
   margin-bottom: 10px;
 }
 
 .staff-account-section p {
+  font-family: 'Lato', sans-serif;
   color: #806b5b;
   font-size: 14px;
   margin-bottom: 20px;
@@ -208,6 +226,7 @@
 }
 
 .staff-account-section label {
+  font-family: 'Lato', sans-serif;
   color: #694638;
   font-size: 14px;
   font-weight: bold;
@@ -215,6 +234,7 @@
 }
 
 .staff-account-section input {
+  font-family: 'Lato', sans-serif;
   padding: 13px;
   margin-bottom: 18px;
   border: 1px solid #d8c5b2;
@@ -230,6 +250,7 @@
 
 /* Create Staff Button */
 .staff-account-section button {
+  font-family: 'Lato', sans-serif;
   background-color: #694638;
   color: white;
   padding: 14px;
@@ -253,13 +274,208 @@
 
 /* Success and Error Messages */
 .staff-success {
+  font-family: 'Lato', sans-serif;
   color: #287a45 !important;
   font-weight: bold;
 }
 
 .staff-error {
+  font-family: 'Lato', sans-serif;
   color: #c0392b !important;
   font-weight: bold;
+}
+
+/* Staff Management Page */
+.staff-management-page {
+  padding: 10px 5px 30px;
+  font-family: 'Lato', sans-serif;
+}
+
+/* Staff Page Header */
+.staff-page-header {
+  margin-bottom: 25px;
+}
+
+.staff-header-label {
+  font-family: 'Lato', sans-serif;
+  color: #b97855;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.staff-page-header h1 {
+  font-family: 'Playfair Display', serif;
+  color: #694638;
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.staff-page-header p {
+  font-family: 'Lato', sans-serif;
+  color: #806b5b;
+  font-size: 14px;
+}
+
+/* Total Staff Summary Card */
+.staff-summary-card {
+  background-color: #fffdf9;
+  border: 1px solid #eadbc9;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(105, 70, 56, 0.06);
+}
+
+.staff-summary-card p {
+  font-family: 'Lato', sans-serif;
+  color: #806b5b;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.staff-summary-card h2 {
+  font-family: 'Playfair Display', serif;
+  color: #694638;
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.staff-summary-card span {
+  font-family: 'Lato', sans-serif;
+  color: #b97855;
+  font-size: 12px;
+}
+
+/* Staff Directory */
+.staff-list-section {
+  margin-top: 35px;
+  padding: 28px;
+  background-color: #fffdf9;
+  border-radius: 15px;
+  border: 1px solid #eadbc9;
+  box-shadow: 0 4px 15px rgba(105, 70, 56, 0.06);
+}
+
+.staff-list-section h2 {
+  font-family: 'Playfair Display', serif;
+  color: #694638;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.staff-list-section p {
+  font-family: 'Lato', sans-serif;
+  color: #806b5b;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+/* Staff Directory Header */
+.staff-directory-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.staff-directory-header h2 {
+  font-family: 'Playfair Display', serif;
+  color: #694638;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.staff-directory-header p {
+  font-family: 'Lato', sans-serif;
+  color: #806b5b;
+  font-size: 14px;
+}
+
+/* Staff Search Box */
+.staff-search-box {
+  margin-bottom: 20px;
+}
+
+.staff-search-box input {
+  font-family: 'Lato', sans-serif;
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 15px;
+  border: 1px solid #eadbc9;
+  border-radius: 8px;
+  background-color: #fffdf9;
+  color: #694638;
+  font-size: 14px;
+  outline: none;
+}
+
+.staff-search-box input:focus {
+  border-color: #b97855;
+  box-shadow: 0 0 0 3px rgba(185, 120, 85, 0.12);
+}
+
+.staff-search-box input::placeholder {
+  color: #a99585;
+}
+
+/* Staff Table */
+.staff-list-section table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+
+.staff-list-section th {
+  font-family: 'Lato', sans-serif;
+  background-color: #694638;
+  color: #fff8ed;
+  padding: 16px;
+  font-size: 13px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.staff-list-section td {
+  font-family: 'Lato', sans-serif;
+  padding: 16px;
+  color: #806b5b;
+  font-size: 14px;
+  border-bottom: 1px solid #eadbc9;
+  white-space: nowrap;
+}
+
+.staff-list-section tbody tr {
+  transition: 0.2s;
+}
+
+.staff-list-section tbody tr:hover {
+  background-color: #f7f0e4;
+}
+
+.staff-list-section tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.staff-list-section td:nth-child(4) {
+  color: #b97855;
+  font-weight: bold;
+}
+
+/* Beach Resort Glass Effect */
+.staff-summary-card,
+.staff-account-section,
+.staff-list-section {
+  background-color: rgba(255, 253, 249, 0.78);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 25px rgba(69, 43, 27, 0.12);
 }
 
 /* Tablet Screen */
@@ -270,9 +486,9 @@
   }
 
   .admin-content {
-  margin-left: 220px;
-  padding: 30px 25px;
-}
+    margin-left: 220px;
+    padding: 30px 25px;
+  }
 
   .dashboard-cards {
     gap: 16px;
@@ -290,12 +506,12 @@
   }
 
   .admin-sidebar {
-  position: relative;
-  width: 100%;
-  height: auto;
-  min-height: auto;
-  padding: 20px;
-}
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    padding: 20px;
+  }
 
   .admin-sidebar h2 {
     font-size: 22px;
@@ -317,11 +533,11 @@
     font-size: 13px;
   }
 
-   .admin-content {
-  width: 100%;
-  margin-left: 0;
-  padding: 25px 18px;
-}
+  .admin-content {
+    width: 100%;
+    margin-left: 0;
+    padding: 25px 18px;
+  }
 
   .admin-content h1 {
     font-size: 25px;
@@ -359,6 +575,23 @@
 
   .banner-description {
     font-size: 15px;
+  }
+
+  .staff-list-section {
+    overflow-x: auto;
+    padding: 18px;
+  }
+
+  .staff-list-section table {
+    min-width: 650px;
+  }
+
+  .staff-account-section {
+    padding: 20px;
+  }
+
+  .staff-account-section h2 {
+    font-size: 21px;
   }
 }
 
@@ -402,13 +635,7 @@
     font-size: 11px;
   }
 
-  .staff-account-section {
-    padding: 20px;
-  }
-
-  .staff-account-section h2 {
-    font-size: 21px;
+  .staff-list-section {
+    padding: 18px;
   }
 }
-
-
