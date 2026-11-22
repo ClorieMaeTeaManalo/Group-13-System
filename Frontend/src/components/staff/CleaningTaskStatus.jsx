@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './CleaningTaskStatus.css';
 
 function CleaningTaskStatus({ task, staffId }) {
 
