@@ -37,3 +37,24 @@ export const createStaffAccount = async (req, res) => {
     });
   }
 };
+
+// Get all staff accounts
+export const getAllStaffAccounts = async (req, res) => {
+  try {
+    const staff = await AccountService.getAllStaffAccounts();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Staff accounts retrieved successfully!',
+      staff
+    });
+
+  } catch (error) {
+    console.error('Get Staff Accounts Error:', error);
+
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error.'
+    });
+  }
+};

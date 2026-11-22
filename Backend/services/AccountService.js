@@ -36,3 +36,7 @@ export const createStaffAccount = async (name, email, password) => {
   };
 };
 
+// Get all staff accounts
+export const getAllStaffAccounts = async () => {
+  return await AccountModel.getAllStaffAccounts();
+};

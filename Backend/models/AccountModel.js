@@ -21,8 +21,8 @@ export const createStaff = async (name, email, password) => {
   return result.insertId;
 };
 
-// Get all staff accounts
-export const getAllStaff = async () => {
+// Get all staff accounts without password values
+export const getAllStaffAccounts = async () => {
   const [rows] = await pool.query(
     `SELECT staff_id, name, email, role, created_at
      FROM staff
@@ -31,3 +31,5 @@ export const getAllStaff = async () => {
 
   return rows;
 };
+
+
