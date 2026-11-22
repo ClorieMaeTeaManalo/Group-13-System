@@ -9,7 +9,7 @@ import adminAuthRoutes from './routes/adminAuthRoutes.js';
 import adminDashboardRoutes from './routes/adminDashboardRoutes.js';
 
 // Staff 
-import staffRoutes from './routes/staffRoutes.js';
+import staffCleaningTaskRoutes from './routes/StaffCleaningTaskRoutes.js';
 
 // Customer Registration Routes
 import customerRoutes from './routes/customerRoutes.js';
@@ -36,7 +36,7 @@ app.use('/api/admin-auth', adminAuthRoutes);
 app.use('/api/admin-dashboard', adminDashboardRoutes);
 
 // Staff Routes
-app.use('/api/staff', staffRoutes);
+app.use('/api/staff', staffCleaningTaskRoutes);
 
 // Customer Routes
 app.use('/api/customers', customerRoutes);
