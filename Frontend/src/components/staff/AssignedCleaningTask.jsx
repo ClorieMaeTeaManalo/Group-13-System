@@ -1,17 +1,17 @@
 
 import React, { useEffect, useState } from 'react';
-import './AssignedCleaningTasks.css';
+import './AssignedCleaningTask.css';
 import '../admin/AdminDashboard.css';
 import beachImage from '../../assets/bella-beachh.jpg';
 
 import CleaningTaskStatus from './CleaningTaskStatus';
 
-function AssignedCleaningTasks() {
+function AssignedCleaningTasks({staff}) {
 
     const [tasks, setTasks] = useState([]);
 
-    // Temporary staff ID
-    const staffId = 3;
+    // Get logged-in staff ID
+    const staffId = staff.staff_id;
 
     // Get assigned cleaning tasks
     useEffect(() => {
@@ -23,7 +23,7 @@ function AssignedCleaningTasks() {
                 }
             })
             .catch(error => console.log(error));
-    }, []);
+    }, [staffId]);
 
     return (
         <div className="admin-layout">
@@ -35,7 +35,6 @@ function AssignedCleaningTasks() {
 
                 <nav>
                     <ul>
-                        <li>Dashboard</li>
                         <li className="active">
                             Assigned Cleaning Tasks
                         </li>
@@ -127,7 +126,8 @@ function AssignedCleaningTasks() {
 
                                             <CleaningTaskStatus
                                             task ={task}
-                                            staffId={staffId}/>
+                                            staffId={staffId}
+                                            />
                                         </tr>
                                     ))
                                 ) : (
