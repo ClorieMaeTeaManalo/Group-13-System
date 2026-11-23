@@ -71,6 +71,26 @@ const [showPassword, setShowPassword] = useState(false);
       // Display login error
       setError(customerData.message || 'Invalid email or password.');
 
+      // Try staff login
+      const staffResponse = await fetch(
+      'http://localhost:3000/api/staff-auth/login',
+      {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      }
+    );
+    
+    const staffData = await staffResponse.json();
+
+    // If staff login is successful
+    if (staffResponse.ok) {
+      onLoginSuccess(staffData.staff);
+  return;
+}
+
     } catch (error) {
       // Handle server connection errors
       setError('Unable to connect to the server.');

@@ -13,6 +13,8 @@ import staffCleaningTaskRoutes from './routes/StaffCleaningTaskRoutes.js';
 
 import staffCleaningStatusRoutes from './routes/StaffCleaningStatusRoutes.js';
 
+import staffLoginRoutes from './routes/StaffLoginRoutes.js';
+
 // Customer Registration Routes
 import customerRoutes from './routes/customerRoutes.js';
 
@@ -41,6 +43,8 @@ app.use('/api/admin-dashboard', adminDashboardRoutes);
 app.use('/api/staff', staffCleaningTaskRoutes);
 
 app.use('/api/staff', staffCleaningStatusRoutes);
+
+app.use('/api/staff-auth', staffLoginRoutes);
 
 // Customer Routes
 app.use('/api/customers', customerRoutes);

@@ -4,6 +4,7 @@ import MainLogin from './components/admin/MainLogin.jsx';
 import AdminDashboard from './components/admin/AdminDashboard.jsx';
 import CustomerRegistration from './components/customer/CustomerRegistration.jsx';
 import CustomerDashboard from './components/customer/CustomerDashboard.jsx';
+import StaffDashboard from './components/staff/StaffDashboard.jsx';
 
 function App() {
   // Store logged-in administrator
@@ -11,6 +12,9 @@ function App() {
 
   // Store logged-in customer
   const [customer, setCustomer] = useState(null);
+
+  // Store logged-in staff
+  const [staff, setStaff] = useState(null);
 
   // Store current page
   const [currentPage, setCurrentPage] = useState(
@@ -26,6 +30,11 @@ function App() {
   if (customer) {
     return <CustomerDashboard customer={customer} />;
   }
+  
+  // Display staff dashboard
+  if (staff) {
+  return <StaffDashboard staff={staff} />;
+}
 
   // Display customer registration page
   if (currentPage === '/register') {
@@ -61,6 +70,8 @@ function App() {
           setAdmin(userData);
         } else if (userData.role === 'customer') {
           setCustomer(userData);
+        }else if (userData.role === 'staff') {
+          setStaff(userData);
         }
       }}
     />
