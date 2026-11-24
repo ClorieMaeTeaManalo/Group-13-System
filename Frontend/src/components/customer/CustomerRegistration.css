@@ -189,3 +189,47 @@
     padding: 30px 25px;
   }
 }
+
+
+/* OTP Verification Form */
+.customer-register-content form input[type="text"] {
+  letter-spacing: 3px;
+}
+
+.customer-register-content form button:disabled {
+  background: #aab5a5;
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+/* OTP input */
+.customer-register-content input[placeholder*="OTP"] {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 8px;
+  padding: 15px;
+}
+
+/* OTP message spacing */
+.customer-register-message {
+  line-height: 1.5;
+}
+
+/* Back to login button */
+.customer-register-login button:hover {
+  color: #203D32;
+  text-decoration: underline;
+}
+
+/* Mobile OTP layout */
+@media (max-width: 768px) {
+  .customer-register-content h2 {
+    font-size: 27px;
+  }
+
+  .customer-register-content input[placeholder*="OTP"] {
+    font-size: 20px;
+    letter-spacing: 6px;
+  }
+}
