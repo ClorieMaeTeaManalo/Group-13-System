@@ -1,0 +1,43 @@
+.cleaning-report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 200px;
+}
+
+.cleaning-report-form h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.cleaning-report-form label {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.cleaning-report-form input,
+.cleaning-report-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.cleaning-report-form textarea {
+    resize: vertical;
+    min-height: 65px;
+}
+
+.cleaning-report-form button {
+    padding: 8px 12px;
+    background-color: #287a65;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cleaning-report-form button:hover {
+    background-color: #1d5d4d;
+}
