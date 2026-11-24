@@ -1,6 +1,6 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 
 // Import Admin Authentication Routes
 import adminAuthRoutes from './routes/adminAuthRoutes.js';
@@ -22,9 +22,6 @@ import customerLoginRoutes from './routes/customerLoginRoutes.js';
 
 // Staff Account Creation Routes
 import accountRoutes from './routes/AccountRoutes.js';
-
-// Load environment variables
-dotenv.config();
 
 // Create Express application
 const app = express();

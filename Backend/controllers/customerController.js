@@ -1,4 +1,5 @@
 import registerCustomer from "../services/customerService.js";
+import verifyOTP from "../services/otpVerificationService.js";
 
 export const register = async (req, res) => {
   try {
@@ -11,7 +12,8 @@ export const register = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Customer Registration Error:", error);
+    console.error("Customer Registration Error:", error.message);
+console.error("Full Error:", error);
 
     const validationErrors = [
       "All fields are required.",
@@ -32,6 +34,35 @@ export const register = async (req, res) => {
       message: statusCode === 500
         ? "Something went wrong during registration."
         : error.message
+    });
+  }
+};
+
+// Verify customer email using OTP
+export const verifyCustomerOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    // Validate required fields
+    if (!email || !otp) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and OTP are required."
+      });
+    }
+
+    // Verify OTP
+    await verifyOTP(email.trim().toLowerCase(), otp);
+
+    return res.status(200).json({
+      success: true,
+      message: "Email verified successfully."
+    });
+
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.message
     });
   }
 };

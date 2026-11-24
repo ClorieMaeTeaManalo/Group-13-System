@@ -11,7 +11,8 @@ const Customer = {
         name,
         email,
         contact_number,
-        password
+        password,
+        verification_status
       FROM customers
       WHERE email = ?`,
       [email]
@@ -26,9 +27,9 @@ const Customer = {
 
     const [result] = await pool.query(
       `INSERT INTO customers
-      (name, email, contact_number, password)
-      VALUES (?, ?, ?, ?)`,
-      [name, email, contact_number, password]
+      (name, email, contact_number, password, verification_status)
+      VALUES (?, ?, ?, ?, ?)`,
+      [name, email, contact_number, password, "Pending"]
     );
 
     return result.insertId;

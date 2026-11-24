@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import Customer from "../models/Customer.js";
+import sendOTP from "./otpService.js";
 
+// Function for registering a new customer
 const registerCustomer = async (customerData) => {
   const { name, email, contact_number, password } = customerData;
 
@@ -49,10 +51,10 @@ const registerCustomer = async (customerData) => {
     throw new Error("Email is already registered.");
   }
 
-  // Hash password
+  // Hash customer password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Save customer
+  // Save customer information to database
   const customerId = await Customer.create({
     name: name.trim(),
     email: normalizedEmail,
@@ -60,11 +62,16 @@ const registerCustomer = async (customerData) => {
     password: hashedPassword
   });
 
+  // Send OTP to customer's registered email
+  await sendOTP(normalizedEmail);
+
+  // Return registered customer information
   return {
     customer_id: customerId,
     name: name.trim(),
     email: normalizedEmail,
-    contact_number: normalizedContact
+    contact_number: normalizedContact,
+    verification_status: "Pending"
   };
 };
 
