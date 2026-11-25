@@ -792,3 +792,122 @@
     width: 100%;
   }
 }
+
+
+/* RESERVATIONS MANAGEMENT PAGE */
+
+.reservation-management-page {
+  padding: 35px;
+  min-height: 100%;
+}
+
+.reservation-page-header {
+  margin-bottom: 25px;
+}
+
+.reservation-page-header h1 {
+  color: #694638;
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.reservation-page-header p {
+  color: #806b5b;
+  font-size: 14px;
+}
+
+/* Modern Glass Table Container */
+.reservation-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding: 15px;
+  border-radius: 16px;
+  background: rgba(255, 253, 249, 0.55);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 25px rgba(69, 43, 27, 0.12);
+}
+
+/* Reservation Table */
+.reservation-management-page table {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+}
+
+/* Table Header */
+.reservation-management-page th {
+  padding: 17px 15px;
+  background: #694638;
+  color: #fff8ed;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.reservation-management-page th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.reservation-management-page th:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* Table Body */
+.reservation-management-page td {
+  padding: 16px 15px;
+  color: #694638;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(105, 70, 56, 0.12);
+  background: rgba(255, 253, 249, 0.35);
+  vertical-align: middle;
+}
+
+/* Alternate Row Background */
+.reservation-management-page tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* Hover Effect */
+.reservation-management-page tbody tr:hover td {
+  background: rgba(185, 120, 85, 0.13);
+  transition: 0.2s;
+}
+
+/* Last Row */
+.reservation-management-page tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Mobile Screen */
+@media screen and (max-width: 768px) {
+  .reservation-management-page {
+    padding: 20px 5px;
+  }
+
+  .reservation-page-header h1 {
+    font-size: 25px;
+  }
+
+  .reservation-table-wrapper {
+    padding: 10px;
+  }
+}
+
+.reservation-management-page table {
+  display: table;
+  min-width: 900px;
+  width: 100%;
+}
+
+.reservation-management-page thead {
+  display: table-header-group;
+}
+
+.reservation-management-page tbody {
+  display: table-row-group;
+}
