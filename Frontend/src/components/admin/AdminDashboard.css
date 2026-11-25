@@ -817,9 +817,19 @@
 }
 
 /* Modern Glass Table Container */
+
+.reservation-management-page table {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+}
+
 .reservation-table-wrapper {
   width: 100%;
   overflow-x: auto;
+  overflow-y: visible;
   padding: 15px;
   border-radius: 16px;
   background: rgba(255, 253, 249, 0.55);
@@ -827,15 +837,6 @@
   -webkit-backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow: 0 8px 25px rgba(69, 43, 27, 0.12);
-}
-
-/* Reservation Table */
-.reservation-management-page table {
-  width: 100%;
-  min-width: 1000px;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: transparent;
 }
 
 /* Table Header */
@@ -885,10 +886,12 @@
 
 /* Mobile Screen */
 @media screen and (max-width: 768px) {
-  .reservation-management-page {
-    padding: 20px 5px;
-  }
-
+.reservation-management-page {
+  padding: 35px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
   .reservation-page-header h1 {
     font-size: 25px;
   }
@@ -899,9 +902,11 @@
 }
 
 .reservation-management-page table {
-  display: table;
-  min-width: 900px;
   width: 100%;
+  min-width: 1000px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
 }
 
 .reservation-management-page thead {
