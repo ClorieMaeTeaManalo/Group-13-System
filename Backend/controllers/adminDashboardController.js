@@ -126,3 +126,24 @@ export const assignStaffToCleaningRequestController = async (req, res) => {
     });
   }
 };
+
+// Get all maintenance reports
+export const getAllMaintenanceReports = async (req, res) => {
+  try {
+    const reports = await adminDashboardService.getAllMaintenanceReports();
+
+    res.status(200).json({
+      success: true,
+      message: 'Maintenance reports retrieved successfully!',
+      data: reports
+    });
+
+  } catch (error) {
+    console.error('Get Maintenance Reports Error:', error);
+
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve maintenance reports.'
+    });
+  }
+};

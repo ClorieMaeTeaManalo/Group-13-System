@@ -164,3 +164,29 @@ export const assignStaffToCleaningRequest = async (cleaningId, staffId) => {
 
   return true;
 };
+
+
+// Get all maintenance reports submitted by staff
+export const getAllMaintenanceReports = async () => {
+
+  const [reports] = await pool.query(`
+    SELECT
+      mr.maintenance_id,
+      mr.reservation_id,
+      mr.staff_id,
+      s.name AS staff_name,
+      mr.issue_title,
+      mr.description,
+      mr.priority,
+      mr.status,
+      mr.admin_notes,
+      mr.created_at,
+      mr.resolved_at
+    FROM maintenance_reports mr
+    INNER JOIN staff s
+      ON mr.staff_id = s.staff_id
+    ORDER BY mr.created_at DESC
+  `);
+
+  return reports;
+};

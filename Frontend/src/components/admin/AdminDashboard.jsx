@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import AdminSidebar from './AdminSidebar.jsx';
 import './AdminDashboard.css';
@@ -56,17 +55,25 @@ function AdminDashboard() {
   const [cleaningRequestError, setCleaningRequestError] = useState('');
 
   // Store selected staff for each cleaning request
-const [selectedCleaningStaff, setSelectedCleaningStaff] = useState({});
+  const [selectedCleaningStaff, setSelectedCleaningStaff] = useState({});
 
-// Store staff assignment messages
-const [assignMessage, setAssignMessage] = useState('');
-const [assignError, setAssignError] = useState('');
-const [assignLoading, setAssignLoading] = useState(null);
+  // Store staff assignment messages
+  const [assignMessage, setAssignMessage] = useState('');
+  const [assignError, setAssignError] = useState('');
+  const [assignLoading, setAssignLoading] = useState(null);
 
   // Store reservation status update messages
   const [statusMessage, setStatusMessage] = useState('');
   const [statusError, setStatusError] = useState('');
   const [statusLoading, setStatusLoading] = useState(null);
+
+  // Store maintenance report records
+  const [maintenanceReportList, setMaintenanceReportList] = useState([]);
+  const [maintenanceReportLoading, setMaintenanceReportLoading] = useState(false);
+  const [maintenanceReportError, setMaintenanceReportError] = useState('');
+
+  // Store selected maintenance report details
+  const [selectedMaintenanceReport, setSelectedMaintenanceReport] = useState(null);
 
   // Count cleaning requests based on their status
   const pendingCleaningCount = cleaningRequestList.filter(
@@ -189,6 +196,33 @@ const [assignLoading, setAssignLoading] = useState(null);
     }
   };
 
+  // Fetch maintenance reports from the backend
+  const fetchMaintenanceReports = async () => {
+    setMaintenanceReportLoading(true);
+    setMaintenanceReportError('');
+
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/admin-dashboard/maintenance-reports'
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.message || 'Failed to load maintenance reports.'
+        );
+      }
+
+      setMaintenanceReportList(result.data);
+    } catch (error) {
+      console.error('Fetch Maintenance Reports Error:', error);
+      setMaintenanceReportError(error.message);
+    } finally {
+      setMaintenanceReportLoading(false);
+    }
+  };
+
   // Update reservation status
   const handleUpdateReservationStatus = async (reservationId, status) => {
     setStatusMessage('');
@@ -228,51 +262,50 @@ const [assignLoading, setAssignLoading] = useState(null);
   };
 
   // Assign staff to a cleaning request
-const handleAssignStaff = async (cleaningId) => {
-  const staffId = selectedCleaningStaff[cleaningId];
+  const handleAssignStaff = async (cleaningId) => {
+    const staffId = selectedCleaningStaff[cleaningId];
 
-  if (!staffId) {
-    setAssignError('Please select a staff member.');
-    setAssignMessage('');
-    return;
-  }
-
-  setAssignMessage('');
-  setAssignError('');
-  setAssignLoading(cleaningId);
-
-  try {
-    const response = await fetch(
-      `http://localhost:3000/api/admin-dashboard/cleaning-requests/${cleaningId}/assign`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          staffId: Number(staffId)
-        })
-      }
-    );
-
-    const result = await response.json();
-
-    if (!response.ok || !result.success) {
-      throw new Error(result.message || 'Failed to assign staff.');
+    if (!staffId) {
+      setAssignError('Please select a staff member.');
+      setAssignMessage('');
+      return;
     }
 
-    setAssignMessage('Staff assigned successfully!');
+    setAssignMessage('');
+    setAssignError('');
+    setAssignLoading(cleaningId);
 
-    // Refresh cleaning requests to display the assigned staff
-    await fetchCleaningRequests();
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/admin-dashboard/cleaning-requests/${cleaningId}/assign`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            staffId: Number(staffId)
+          })
+        }
+      );
 
-  } catch (error) {
-    console.error('Assign Staff Error:', error);
-    setAssignError(error.message);
-  } finally {
-    setAssignLoading(null);
-  }
-};
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Failed to assign staff.');
+      }
+
+      setAssignMessage('Staff assigned successfully!');
+
+      // Refresh cleaning requests to display the assigned staff
+      await fetchCleaningRequests();
+    } catch (error) {
+      console.error('Assign Staff Error:', error);
+      setAssignError(error.message);
+    } finally {
+      setAssignLoading(null);
+    }
+  };
 
   // Fetch records when an admin page is opened
   useEffect(() => {
@@ -280,13 +313,18 @@ const handleAssignStaff = async (cleaningId) => {
       fetchStaffAccounts();
     }
 
-    if (activePage === 'Cleaning Requests') {
-  fetchCleaningRequests();
-  fetchStaffAccounts();
+    if (activePage === 'Maintenance Reports') {
+      fetchMaintenanceReports();
+      setSelectedMaintenanceReport(null);
+    }
 
-  setAssignMessage('');
-  setAssignError('');
-}
+    if (activePage === 'Cleaning Requests') {
+      fetchCleaningRequests();
+      fetchStaffAccounts();
+
+      setAssignMessage('');
+      setAssignError('');
+    }
 
     if (activePage === 'Reservations') {
       fetchReservations();
@@ -390,8 +428,9 @@ const handleAssignStaff = async (cleaningId) => {
         className="admin-content"
         style={
           activePage === 'Staff Accounts' ||
-          activePage === 'Reservations' ||
-          activePage === 'Cleaning Requests'
+activePage === 'Reservations' ||
+activePage === 'Cleaning Requests' ||
+activePage === 'Maintenance Reports'
             ? {
                 backgroundImage: `linear-gradient(rgba(247, 240, 228, 0.25), rgba(247, 240, 228, 0.25)), url(${backgroundImage})`,
                 backgroundSize: 'cover',
@@ -687,7 +726,10 @@ const handleAssignStaff = async (cleaningId) => {
 
         {/* Display Cleaning Requests Page */}
         {activePage === 'Cleaning Requests' && (
-          <div className="cleaning-management-page">
+          <div
+  className="cleaning-management-page beach-background-page"
+  style={{ '--beach-background': `url(${backgroundImage})` }}
+>
             <div className="cleaning-page-header">
               <h1>Cleaning Requests</h1>
               <p>Monitor cleaning requests for completed reservations.</p>
@@ -734,89 +776,263 @@ const handleAssignStaff = async (cleaningId) => {
 
             {/* Staff Assignment Messages */}
             {assignMessage && (
-          <p className="staff-success">{assignMessage}</p>
-       )}
+              <p className="staff-success">{assignMessage}</p>
+            )}
 
-      {assignError && (
-  <p className="staff-error">{assignError}</p>
-)}
+            {assignError && (
+              <p className="staff-error">{assignError}</p>
+            )}
 
-            
-{cleaningRequestLoading ? (
-  <p>Loading cleaning requests...</p>
-) : cleaningRequestError ? (
-  <p className="staff-error">{cleaningRequestError}</p>
-) : (
-  <div className="cleaning-request-list">
-  {cleaningRequestList.length === 0 ? (
-    <p className="no-cleaning-requests">
-      No cleaning requests found.
-    </p>
-  ) : (
-    cleaningRequestList.map((request) => (
-      <div className="cleaning-request-card" key={request.cleaning_id}>
-        <h2>Cleaning Request #{request.cleaning_id}</h2>
+            {cleaningRequestLoading ? (
+              <p>Loading cleaning requests...</p>
+            ) : cleaningRequestError ? (
+              <p className="staff-error">{cleaningRequestError}</p>
+            ) : (
+              <div className="cleaning-request-list">
+                {cleaningRequestList.length === 0 ? (
+                  <p className="no-cleaning-requests">
+                    No cleaning requests found.
+                  </p>
+                ) : (
+                  cleaningRequestList.map((request) => (
+                    <div
+                      className="cleaning-request-card"
+                      key={request.cleaning_id}
+                    >
+                      <h2>Cleaning Request #{request.cleaning_id}</h2>
 
-        <div className="cleaning-request-details">
-          <p><strong>Reservation ID:</strong> {request.reservation_id}</p>
-          <p><strong>Customer:</strong> {request.customer_name}</p>
-          <p><strong>Check-in:</strong> {request.check_in ? new Date(request.check_in).toLocaleDateString() : '—'}</p>
-          <p><strong>Check-out:</strong> {request.check_out ? new Date(request.check_out).toLocaleDateString() : '—'}</p>
-          <p><strong>Guests:</strong> {request.guests}</p>
-          <p>
-  <strong>Assigned Staff:</strong>{' '}
-  {request.staff_name || 'Not yet assigned'}
-</p>
+                      <div className="cleaning-request-details">
+                        <p>
+                          <strong>Reservation ID:</strong>{' '}
+                          {request.reservation_id}
+                        </p>
+                        <p>
+                          <strong>Customer:</strong> {request.customer_name}
+                        </p>
+                        <p>
+                          <strong>Check-in:</strong>{' '}
+                          {request.check_in
+                            ? new Date(request.check_in).toLocaleDateString()
+                            : '—'}
+                        </p>
+                        <p>
+                          <strong>Check-out:</strong>{' '}
+                          {request.check_out
+                            ? new Date(request.check_out).toLocaleDateString()
+                            : '—'}
+                        </p>
+                        <p>
+                          <strong>Guests:</strong> {request.guests}
+                        </p>
+                        <p>
+                          <strong>Assigned Staff:</strong>{' '}
+                          {request.staff_name || 'Not yet assigned'}
+                        </p>
 
-{/* Select a staff member */}
-<div className="assign-staff-section">
-  <label>Assign Staff Member:</label>
+                        {/* Select a staff member */}
+                        <div className="assign-staff-section">
+                          <label>Assign Staff Member:</label>
 
-  <select
-    value={selectedCleaningStaff[request.cleaning_id] || ''}
-    onChange={(e) =>
-      setSelectedCleaningStaff({
-        ...selectedCleaningStaff,
-        [request.cleaning_id]: e.target.value
-      })
-    }
-  >
-    <option value="">Select staff member</option>
+                          <select
+                            value={
+                              selectedCleaningStaff[request.cleaning_id] || ''
+                            }
+                            onChange={(e) =>
+                              setSelectedCleaningStaff({
+                                ...selectedCleaningStaff,
+                                [request.cleaning_id]: e.target.value
+                              })
+                            }
+                          >
+                            <option value="">Select staff member</option>
 
-    {staffList.map((staff) => (
-      <option key={staff.staff_id} value={staff.staff_id}>
-        {staff.name}
-      </option>
-    ))}
-  </select>
+                            {staffList.map((staff) => (
+                              <option
+                                key={staff.staff_id}
+                                value={staff.staff_id}
+                              >
+                                {staff.name}
+                              </option>
+                            ))}
+                          </select>
 
-  <button
-    type="button"
-    onClick={() => handleAssignStaff(request.cleaning_id)}
-    disabled={assignLoading === request.cleaning_id}
-  >
-    {assignLoading === request.cleaning_id
-      ? 'Assigning...'
-      : 'Assign Staff'}
-  </button>
-</div>
-          <p><strong>Description:</strong> {request.description || 'None'}</p>
-          <p><strong>Status:</strong> {request.status.replace('_', ' ')}</p>
-          <p><strong>Date Created:</strong> {request.created_at ? new Date(request.created_at).toLocaleDateString() : '—'}</p>
-        </div>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleAssignStaff(request.cleaning_id)
+                            }
+                            disabled={assignLoading === request.cleaning_id}
+                          >
+                            {assignLoading === request.cleaning_id
+                              ? 'Assigning...'
+                              : 'Assign Staff'}
+                          </button>
+                        </div>
+
+                        <p>
+                          <strong>Description:</strong>{' '}
+                          {request.description || 'None'}
+                        </p>
+                        <p>
+                          <strong>Status:</strong>{' '}
+                          {request.status.replace('_', ' ')}
+                        </p>
+                        <p>
+                          <strong>Date Created:</strong>{' '}
+                          {request.created_at
+                            ? new Date(
+                                request.created_at
+                              ).toLocaleDateString()
+                            : '—'}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+{/* Display Maintenance Reports Page */}
+{activePage === 'Maintenance Reports' && (
+   <div
+  className="maintenance-management-page beach-background-page"
+  style={{ '--beach-background': `url(${backgroundImage})` }}
+>
+
+    <div className="maintenance-page-header">
+      <h1>Maintenance Reports</h1>
+      <p>Review maintenance issues submitted by resort staff.</p>
+    </div>
+
+    {maintenanceReportLoading ? (
+      <p>Loading maintenance reports...</p>
+    ) : maintenanceReportError ? (
+      <p className="staff-error">{maintenanceReportError}</p>
+    ) : (
+      <div className="maintenance-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Report ID</th>
+              <th>Issue Title</th>
+              <th>Submitted By</th>
+              <th>Priority</th>
+              <th>Date Submitted</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {maintenanceReportList.length === 0 ? (
+              <tr>
+                <td colSpan="7" style={{ textAlign: 'center' }}>
+                  No maintenance reports found.
+                </td>
+              </tr>
+            ) : (
+              maintenanceReportList.map((report) => (
+                <tr key={report.maintenance_id}>
+                  <td>{report.maintenance_id}</td>
+                  <td>{report.issue_title}</td>
+                  <td>{report.staff_name}</td>
+                  <td>{report.priority}</td>
+                  <td>
+                    {new Date(report.created_at).toLocaleDateString()}
+                  </td>
+                  <td>{report.status.replace('_', ' ')}</td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedMaintenanceReport(report)}
+                    >
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
-    ))
-  )}
+    )}
+
+    {/* Maintenance Report Full Details */}
+    {selectedMaintenanceReport && (
+      <div className="maintenance-report-details">
+        <h2>Maintenance Report Details</h2>
+
+        <p>
+          <strong>Report ID:</strong>{' '}
+          {selectedMaintenanceReport.maintenance_id}
+        </p>
+
+        <p>
+          <strong>Issue Title:</strong>{' '}
+          {selectedMaintenanceReport.issue_title}
+        </p>
+
+        <p>
+          <strong>Submitted By:</strong>{' '}
+          {selectedMaintenanceReport.staff_name}
+        </p>
+
+        <p>
+          <strong>Description:</strong>{' '}
+          {selectedMaintenanceReport.description}
+        </p>
+
+        <p>
+          <strong>Priority:</strong>{' '}
+          {selectedMaintenanceReport.priority}
+        </p>
+
+        <p>
+          <strong>Date Submitted:</strong>{' '}
+          {new Date(
+            selectedMaintenanceReport.created_at
+          ).toLocaleString()}
+        </p>
+
+        <p>
+          <strong>Current Status:</strong>{' '}
+          {selectedMaintenanceReport.status.replace('_', ' ')}
+        </p>
+
+        <p>
+          <strong>Admin Notes:</strong>{' '}
+          {selectedMaintenanceReport.admin_notes || 'None'}
+        </p>
+
+        <p>
+          <strong>Resolved Date:</strong>{' '}
+          {selectedMaintenanceReport.resolved_at
+            ? new Date(
+                selectedMaintenanceReport.resolved_at
+              ).toLocaleString()
+            : 'Not yet resolved'}
+        </p>
+
+        <button
+          type="button"
+          onClick={() => setSelectedMaintenanceReport(null)}
+        >
+          Close Details
+        </button>
+      </div>
+    )}
+
   </div>
-  )}
-</div>
 )}
 
         {/* Display Other Admin Pages */}
         {activePage !== 'Dashboard' &&
           activePage !== 'Staff Accounts' &&
           activePage !== 'Reservations' &&
-          activePage !== 'Cleaning Requests' && (
+          activePage !== 'Cleaning Requests' &&
+          activePage !== 'Maintenance Reports' && (
             <h2>{activePage}</h2>
           )}
 

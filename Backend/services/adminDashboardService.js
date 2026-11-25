@@ -78,3 +78,8 @@ export const assignStaffToCleaningRequest = async (cleaningId, staffId) => {
 
   return true;
 };
+
+// Get all maintenance reports
+export const getAllMaintenanceReports = async () => {
+  return await adminDashboardModel.getAllMaintenanceReports();
+};

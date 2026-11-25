@@ -1218,5 +1218,132 @@
   .assign-staff-section button {
     width: 100%;
   }
+} 
+
+.beach-background-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 30px;
+  background-image: var(--beach-background);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
+/* Soft Overlay for a Clean Look */
+.beach-background-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 248, 237, 0.45);
+  pointer-events: none;
+}
+
+/* Keep Content Above Background */
+.beach-background-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Cleaning Summary Cards */
+.beach-background-page .cleaning-summary-card {
+  background: #fffdf9;
+  border: 1px solid #eee3d7;
+  box-shadow: 0 5px 18px rgba(69, 43, 27, 0.10);
+}
+
+/* Cleaning Request Cards */
+.beach-background-page .cleaning-request-card {
+  background: #fffdf9;
+  border: 1px solid #eee3d7;
+  box-shadow: 0 5px 18px rgba(69, 43, 27, 0.10);
+}
+
+/* Maintenance Table Container */
+.maintenance-table-wrapper {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  padding: 18px;
+  border-radius: 12px;
+  background: #fffdf9;
+  border: 1px solid #eee3d7;
+  box-shadow: 0 5px 18px rgba(69, 43, 27, 0.10);
+}
+
+.maintenance-table-wrapper table {
+  width: 100%;
+  min-width: 750px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.maintenance-table-wrapper th {
+  padding: 16px;
+  background: #694638;
+  color: #fff8ed;
+  text-align: left;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.maintenance-table-wrapper td {
+  padding: 15px;
+  color: #694638;
+  font-size: 13px;
+  border-bottom: 1px solid #eee3d7;
+  background: #fffdf9;
+}
+
+.maintenance-table-wrapper tbody tr:hover td {
+  background: #f8eee4;
+}
+
+/* Maintenance Report Details */
+.maintenance-report-details {
+  position: relative;
+  margin-top: 25px;
+  padding: 25px;
+  border-radius: 12px;
+  background: #fffdf9;
+  border: 1px solid #eee3d7;
+  box-shadow: 0 5px 18px rgba(69, 43, 27, 0.10);
+}
+
+.maintenance-report-details h2 {
+  color: #694638;
+  margin-bottom: 18px;
+}
+
+.maintenance-report-details p {
+  color: #806b5b;
+  padding: 9px 0;
+  border-bottom: 1px solid #eee3d7;
+}
+
+/* Maintenance Buttons */
+.maintenance-management-page button {
+  padding: 10px 17px;
+  background: #694638;
+  color: #fff8ed;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.maintenance-management-page button:hover {
+  background: #8c604b;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .beach-background-page {
+    padding: 20px;
+  }
+
+  .maintenance-table-wrapper {
+    padding: 10px;
+  }
+}
