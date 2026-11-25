@@ -42,3 +42,12 @@ export const updateReservationStatus = async (reservationId, status) => {
 
   return true;
 };
+
+// Get all cleaning requests
+export const getAllCleaningRequests = async () => {
+  // Create pending requests for reservations that reached checkout date
+  await adminDashboardModel.createAutomaticCleaningRequests();
+
+  // Retrieve all cleaning requests
+  return await adminDashboardModel.getAllCleaningRequests();
+};

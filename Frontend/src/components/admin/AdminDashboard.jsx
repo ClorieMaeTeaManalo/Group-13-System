@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import AdminSidebar from './AdminSidebar.jsx';
 import './AdminDashboard.css';
@@ -49,15 +50,34 @@ function AdminDashboard() {
   const [reservationLoading, setReservationLoading] = useState(false);
   const [reservationError, setReservationError] = useState('');
 
+  // Store cleaning request records
+  const [cleaningRequestList, setCleaningRequestList] = useState([]);
+  const [cleaningRequestLoading, setCleaningRequestLoading] = useState(false);
+  const [cleaningRequestError, setCleaningRequestError] = useState('');
+
   // Store reservation status update messages
   const [statusMessage, setStatusMessage] = useState('');
   const [statusError, setStatusError] = useState('');
   const [statusLoading, setStatusLoading] = useState(null);
 
+  // Count cleaning requests based on their status
+  const pendingCleaningCount = cleaningRequestList.filter(
+    (request) => request.status === 'pending'
+  ).length;
+
+  const inProgressCleaningCount = cleaningRequestList.filter(
+    (request) => request.status === 'in_progress'
+  ).length;
+
+  const completedCleaningCount = cleaningRequestList.filter(
+    (request) => request.status === 'completed'
+  ).length;
+
   // Filter staff accounts by name or email
-  const filteredStaff = staffList.filter((staff) =>
-    (staff.name || '').toLowerCase().includes(staffSearch.toLowerCase()) ||
-    (staff.email || '').toLowerCase().includes(staffSearch.toLowerCase())
+  const filteredStaff = staffList.filter(
+    (staff) =>
+      (staff.name || '').toLowerCase().includes(staffSearch.toLowerCase()) ||
+      (staff.email || '').toLowerCase().includes(staffSearch.toLowerCase())
   );
 
   // Get dashboard data from the backend
@@ -136,6 +156,31 @@ function AdminDashboard() {
     }
   };
 
+  // Get all cleaning request records
+  const fetchCleaningRequests = async () => {
+    setCleaningRequestLoading(true);
+    setCleaningRequestError('');
+
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/admin-dashboard/cleaning-requests'
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Failed to load cleaning requests.');
+      }
+
+      setCleaningRequestList(result.data);
+    } catch (error) {
+      console.error('Cleaning Requests Error:', error);
+      setCleaningRequestError(error.message);
+    } finally {
+      setCleaningRequestLoading(false);
+    }
+  };
+
   // Update reservation status
   const handleUpdateReservationStatus = async (reservationId, status) => {
     setStatusMessage('');
@@ -166,7 +211,6 @@ function AdminDashboard() {
 
       // Refresh reservation records after successful update
       await fetchReservations();
-
     } catch (error) {
       console.error('Update Reservation Status Error:', error);
       setStatusError(error.message);
@@ -179,6 +223,10 @@ function AdminDashboard() {
   useEffect(() => {
     if (activePage === 'Staff Accounts') {
       fetchStaffAccounts();
+    }
+
+    if (activePage === 'Cleaning Requests') {
+      fetchCleaningRequests();
     }
 
     if (activePage === 'Reservations') {
@@ -274,7 +322,6 @@ function AdminDashboard() {
 
   return (
     <div className="admin-layout">
-
       <AdminSidebar
         activePage={activePage}
         onPageChange={setActivePage}
@@ -283,7 +330,9 @@ function AdminDashboard() {
       <main
         className="admin-content"
         style={
-          activePage === 'Staff Accounts' || activePage === 'Reservations'
+          activePage === 'Staff Accounts' ||
+          activePage === 'Reservations' ||
+          activePage === 'Cleaning Requests'
             ? {
                 backgroundImage: `linear-gradient(rgba(247, 240, 228, 0.25), rgba(247, 240, 228, 0.25)), url(${backgroundImage})`,
                 backgroundSize: 'cover',
@@ -293,7 +342,6 @@ function AdminDashboard() {
             : {}
         }
       >
-
         {/* Display Dashboard Page */}
         {activePage === 'Dashboard' && (
           <>
@@ -318,7 +366,6 @@ function AdminDashboard() {
               <p>{error}</p>
             ) : (
               <div className="dashboard-cards">
-
                 <div className="dashboard-card">
                   <h3>Total Reservations</h3>
                   <h2>{summary.totalReservations}</h2>
@@ -338,7 +385,6 @@ function AdminDashboard() {
                   <h3>Maintenance Reports</h3>
                   <h2>{summary.maintenanceReports}</h2>
                 </div>
-
               </div>
             )}
           </>
@@ -347,7 +393,6 @@ function AdminDashboard() {
         {/* Display Staff Accounts Page */}
         {activePage === 'Staff Accounts' && (
           <div className="staff-management-page">
-
             <div className="staff-page-header">
               <div>
                 <p className="staff-header-label">BELLA BEACH RESORT</p>
@@ -407,14 +452,15 @@ function AdminDashboard() {
                 )}
 
                 <button type="submit" disabled={staffLoading}>
-                  {staffLoading ? 'Creating Account...' : 'Create Staff Account'}
+                  {staffLoading
+                    ? 'Creating Account...'
+                    : 'Create Staff Account'}
                 </button>
               </form>
             </div>
 
             {/* Staff Directory */}
             <div className="staff-list-section">
-
               <div className="staff-directory-header">
                 <div>
                   <h2>Staff Directory</h2>
@@ -480,14 +526,12 @@ function AdminDashboard() {
                 </table>
               )}
             </div>
-
           </div>
         )}
 
         {/* Display Reservations Page */}
         {activePage === 'Reservations' && (
           <div className="reservation-management-page">
-
             <div className="reservation-page-header">
               <h1>Reservation Management</h1>
               <p>View and review all customer reservations.</p>
@@ -538,10 +582,14 @@ function AdminDashboard() {
                           <td>{reservation.customer_email}</td>
                           <td>{reservation.contact_number}</td>
                           <td>
-                            {new Date(reservation.check_in).toLocaleDateString()}
+                            {new Date(
+                              reservation.check_in
+                            ).toLocaleDateString()}
                           </td>
                           <td>
-                            {new Date(reservation.check_out).toLocaleDateString()}
+                            {new Date(
+                              reservation.check_out
+                            ).toLocaleDateString()}
                           </td>
                           <td>{reservation.guests}</td>
                           <td>{reservation.special_requests || 'None'}</td>
@@ -575,14 +623,96 @@ function AdminDashboard() {
                 </table>
               </div>
             )}
-
           </div>
         )}
+
+        {/* Display Cleaning Requests Page */}
+        {activePage === 'Cleaning Requests' && (
+          <div className="cleaning-management-page">
+            <div className="cleaning-page-header">
+              <h1>Cleaning Requests</h1>
+              <p>Monitor cleaning requests for completed reservations.</p>
+            </div>
+
+            {/* Cleaning Request Summary Cards */}
+            <div className="cleaning-summary-cards">
+              <div className="cleaning-summary-card pending-card">
+                <div className="cleaning-card-icon">
+                  <span>◷</span>
+                </div>
+
+                <div>
+                  <h3>Pending</h3>
+                  <h2>{pendingCleaningCount}</h2>
+                  <p>Waiting for cleaning</p>
+                </div>
+              </div>
+
+              <div className="cleaning-summary-card progress-card">
+                <div className="cleaning-card-icon">
+                  <span>↻</span>
+                </div>
+
+                <div>
+                  <h3>In Progress</h3>
+                  <h2>{inProgressCleaningCount}</h2>
+                  <p>Currently being cleaned</p>
+                </div>
+              </div>
+
+              <div className="cleaning-summary-card completed-card">
+                <div className="cleaning-card-icon">
+                  <span>✓</span>
+                </div>
+
+                <div>
+                  <h3>Completed</h3>
+                  <h2>{completedCleaningCount}</h2>
+                  <p>Cleaning finished</p>
+                </div>
+              </div>
+            </div>
+
+            
+{cleaningRequestLoading ? (
+  <p>Loading cleaning requests...</p>
+) : cleaningRequestError ? (
+  <p className="staff-error">{cleaningRequestError}</p>
+) : (
+  <div className="cleaning-request-list">
+  {cleaningRequestList.length === 0 ? (
+    <p className="no-cleaning-requests">
+      No cleaning requests found.
+    </p>
+  ) : (
+    cleaningRequestList.map((request) => (
+      <div className="cleaning-request-card" key={request.cleaning_id}>
+        <h2>Cleaning Request #{request.cleaning_id}</h2>
+
+        <div className="cleaning-request-details">
+          <p><strong>Reservation ID:</strong> {request.reservation_id}</p>
+          <p><strong>Customer:</strong> {request.customer_name}</p>
+          <p><strong>Check-in:</strong> {request.check_in ? new Date(request.check_in).toLocaleDateString() : '—'}</p>
+          <p><strong>Check-out:</strong> {request.check_out ? new Date(request.check_out).toLocaleDateString() : '—'}</p>
+          <p><strong>Guests:</strong> {request.guests}</p>
+          <p><strong>Assigned Staff:</strong> {request.staff_name}</p>
+          <p><strong>Description:</strong> {request.description || 'None'}</p>
+          <p><strong>Status:</strong> {request.status.replace('_', ' ')}</p>
+          <p><strong>Date Created:</strong> {request.created_at ? new Date(request.created_at).toLocaleDateString() : '—'}</p>
+        </div>
+      </div>
+    ))
+  )}
+  </div>
+  )}
+</div>
+)}
 
         {/* Display Other Admin Pages */}
         {activePage !== 'Dashboard' &&
           activePage !== 'Staff Accounts' &&
-          activePage !== 'Reservations' && (
+          activePage !== 'Reservations' &&
+          activePage !== 'Cleaning Requests' && (
             <h2>{activePage}</h2>
           )}
 
@@ -590,7 +720,6 @@ function AdminDashboard() {
         {showDeleteModal && (
           <div className="delete-modal-overlay">
             <div className="delete-modal">
-
               <div className="delete-modal-icon">
                 <span>!</span>
               </div>
@@ -624,11 +753,9 @@ function AdminDashboard() {
                   {deleteLoading ? 'Deleting...' : 'Delete Account'}
                 </button>
               </div>
-
             </div>
           </div>
         )}
-
       </main>
     </div>
   );
