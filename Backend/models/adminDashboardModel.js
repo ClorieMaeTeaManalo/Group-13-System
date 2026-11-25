@@ -31,3 +31,28 @@ export const getDashboardSummary = async () => {
     maintenanceReports: maintenanceReports[0].total
   };
 };
+
+
+// Get all reservation records with customer information
+export const getAllReservations = async () => {
+  const [reservations] = await pool.query(`
+    SELECT
+      reservations.reservation_id,
+      reservations.customer_id,
+      customers.name AS customer_name,
+      customers.email AS customer_email,
+      customers.contact_number,
+      reservations.check_in,
+      reservations.check_out,
+      reservations.guests,
+      reservations.special_requests,
+      reservations.status,
+      reservations.created_at
+    FROM reservations
+    INNER JOIN customers
+      ON reservations.customer_id = customers.customer_id
+    ORDER BY reservations.created_at DESC
+  `);
+
+  return reservations;
+};

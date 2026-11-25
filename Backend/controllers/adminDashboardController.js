@@ -20,3 +20,24 @@ export const getDashboardSummary = async (req, res) => {
     });
   }
 };
+
+// Get all reservation records
+export const getAllReservations = async (req, res) => {
+  try {
+    const reservations = await adminDashboardService.getAllReservations();
+
+    res.status(200).json({
+      success: true,
+      message: 'Reservation records retrieved successfully!',
+      data: reservations
+    });
+
+  } catch (error) {
+    console.error('Get Reservations Error:', error);
+
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve reservation records.'
+    });
+  }
+};
