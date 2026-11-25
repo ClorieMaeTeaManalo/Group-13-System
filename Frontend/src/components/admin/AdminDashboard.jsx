@@ -55,6 +55,14 @@ function AdminDashboard() {
   const [cleaningRequestLoading, setCleaningRequestLoading] = useState(false);
   const [cleaningRequestError, setCleaningRequestError] = useState('');
 
+  // Store selected staff for each cleaning request
+const [selectedCleaningStaff, setSelectedCleaningStaff] = useState({});
+
+// Store staff assignment messages
+const [assignMessage, setAssignMessage] = useState('');
+const [assignError, setAssignError] = useState('');
+const [assignLoading, setAssignLoading] = useState(null);
+
   // Store reservation status update messages
   const [statusMessage, setStatusMessage] = useState('');
   const [statusError, setStatusError] = useState('');
@@ -219,6 +227,53 @@ function AdminDashboard() {
     }
   };
 
+  // Assign staff to a cleaning request
+const handleAssignStaff = async (cleaningId) => {
+  const staffId = selectedCleaningStaff[cleaningId];
+
+  if (!staffId) {
+    setAssignError('Please select a staff member.');
+    setAssignMessage('');
+    return;
+  }
+
+  setAssignMessage('');
+  setAssignError('');
+  setAssignLoading(cleaningId);
+
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/admin-dashboard/cleaning-requests/${cleaningId}/assign`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          staffId: Number(staffId)
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || 'Failed to assign staff.');
+    }
+
+    setAssignMessage('Staff assigned successfully!');
+
+    // Refresh cleaning requests to display the assigned staff
+    await fetchCleaningRequests();
+
+  } catch (error) {
+    console.error('Assign Staff Error:', error);
+    setAssignError(error.message);
+  } finally {
+    setAssignLoading(null);
+  }
+};
+
   // Fetch records when an admin page is opened
   useEffect(() => {
     if (activePage === 'Staff Accounts') {
@@ -226,8 +281,12 @@ function AdminDashboard() {
     }
 
     if (activePage === 'Cleaning Requests') {
-      fetchCleaningRequests();
-    }
+  fetchCleaningRequests();
+  fetchStaffAccounts();
+
+  setAssignMessage('');
+  setAssignError('');
+}
 
     if (activePage === 'Reservations') {
       fetchReservations();
@@ -673,6 +732,15 @@ function AdminDashboard() {
               </div>
             </div>
 
+            {/* Staff Assignment Messages */}
+            {assignMessage && (
+          <p className="staff-success">{assignMessage}</p>
+       )}
+
+      {assignError && (
+  <p className="staff-error">{assignError}</p>
+)}
+
             
 {cleaningRequestLoading ? (
   <p>Loading cleaning requests...</p>
@@ -695,7 +763,43 @@ function AdminDashboard() {
           <p><strong>Check-in:</strong> {request.check_in ? new Date(request.check_in).toLocaleDateString() : '—'}</p>
           <p><strong>Check-out:</strong> {request.check_out ? new Date(request.check_out).toLocaleDateString() : '—'}</p>
           <p><strong>Guests:</strong> {request.guests}</p>
-          <p><strong>Assigned Staff:</strong> {request.staff_name}</p>
+          <p>
+  <strong>Assigned Staff:</strong>{' '}
+  {request.staff_name || 'Not yet assigned'}
+</p>
+
+{/* Select a staff member */}
+<div className="assign-staff-section">
+  <label>Assign Staff Member:</label>
+
+  <select
+    value={selectedCleaningStaff[request.cleaning_id] || ''}
+    onChange={(e) =>
+      setSelectedCleaningStaff({
+        ...selectedCleaningStaff,
+        [request.cleaning_id]: e.target.value
+      })
+    }
+  >
+    <option value="">Select staff member</option>
+
+    {staffList.map((staff) => (
+      <option key={staff.staff_id} value={staff.staff_id}>
+        {staff.name}
+      </option>
+    ))}
+  </select>
+
+  <button
+    type="button"
+    onClick={() => handleAssignStaff(request.cleaning_id)}
+    disabled={assignLoading === request.cleaning_id}
+  >
+    {assignLoading === request.cleaning_id
+      ? 'Assigning...'
+      : 'Assign Staff'}
+  </button>
+</div>
           <p><strong>Description:</strong> {request.description || 'None'}</p>
           <p><strong>Status:</strong> {request.status.replace('_', ' ')}</p>
           <p><strong>Date Created:</strong> {request.created_at ? new Date(request.created_at).toLocaleDateString() : '—'}</p>

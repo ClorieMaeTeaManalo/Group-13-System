@@ -1122,3 +1122,101 @@
     min-width: auto;
   }
 }
+
+
+/* MODERN STAFF ASSIGNMENT */
+
+.assign-staff-section {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 20px;
+  background: rgba(232, 243, 241, 0.75);
+  border: 1px solid #d5e7e3;
+  border-radius: 14px;
+}
+
+.assign-staff-section label {
+  width: 100%;
+  color: #234b50;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.assign-staff-section select {
+  flex: 1;
+  min-width: 180px;
+  padding: 12px 15px;
+  border: 1px solid #c6dcd7;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #234b50;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+.assign-staff-section select:focus {
+  border-color: #397d87;
+  box-shadow: 0 0 0 3px rgba(57, 125, 135, 0.12);
+}
+
+.assign-staff-section button {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 9px;
+  background: #234b50;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.assign-staff-section button:hover {
+  background: #397d87;
+  transform: translateY(-2px);
+}
+
+.assign-staff-section button:disabled {
+  background: #9aafad;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Assignment Messages */
+
+.cleaning-management-page .staff-success,
+.cleaning-management-page .staff-error {
+  padding: 13px 17px;
+  margin: 12px 0;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.cleaning-management-page .staff-success {
+  background: #e4f2e7;
+  color: #326d40 !important;
+}
+
+.cleaning-management-page .staff-error {
+  background: #fbe9e7;
+  color: #a33c36 !important;
+}
+
+/* Responsive Assignment */
+
+@media screen and (max-width: 480px) {
+  .assign-staff-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .assign-staff-section select,
+  .assign-staff-section button {
+    width: 100%;
+  }
+}
+
