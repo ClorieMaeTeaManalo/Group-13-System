@@ -132,3 +132,35 @@ export const getAllCleaningRequests = async () => {
 
   return cleaningRequests;
 };
+
+// Assign a staff member to a cleaning request
+export const assignStaffToCleaningRequest = async (cleaningId, staffId) => {
+
+  // Check if the cleaning request exists
+  const [cleaningRows] = await pool.query(
+    'SELECT cleaning_id FROM cleaning_reports WHERE cleaning_id = ?',
+    [cleaningId]
+  );
+
+  if (cleaningRows.length === 0) {
+    return false;
+  }
+
+  // Check if the staff member exists
+  const [staffRows] = await pool.query(
+    'SELECT staff_id FROM staff WHERE staff_id = ?',
+    [staffId]
+  );
+
+  if (staffRows.length === 0) {
+    throw new Error('Staff member not found.');
+  }
+
+  // Save the assigned staff member
+  await pool.query(
+    'UPDATE cleaning_reports SET staff_id = ? WHERE cleaning_id = ?',
+    [staffId, cleaningId]
+  );
+
+  return true;
+};

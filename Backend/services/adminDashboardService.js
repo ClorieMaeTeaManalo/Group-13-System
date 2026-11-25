@@ -51,3 +51,30 @@ export const getAllCleaningRequests = async () => {
   // Retrieve all cleaning requests
   return await adminDashboardModel.getAllCleaningRequests();
 };
+
+// Assign staff to a cleaning request
+export const assignStaffToCleaningRequest = async (cleaningId, staffId) => {
+
+  // Validate cleaning request ID
+  if (!Number.isInteger(Number(cleaningId)) || Number(cleaningId) <= 0) {
+    throw new Error('Invalid cleaning request ID.');
+  }
+
+  // Validate staff ID
+  if (!Number.isInteger(Number(staffId)) || Number(staffId) <= 0) {
+    throw new Error('Invalid staff ID.');
+  }
+
+  // Assign staff to cleaning request
+  const assigned = await adminDashboardModel.assignStaffToCleaningRequest(
+    Number(cleaningId),
+    Number(staffId)
+  );
+
+  // Check if cleaning request exists
+  if (!assigned) {
+    throw new Error('Cleaning request not found.');
+  }
+
+  return true;
+};
