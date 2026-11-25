@@ -1,6 +1,3 @@
-
-import React from 'react';
-
 function AdminSidebar({ activePage, onPageChange }) {
   return (
     <div className="admin-sidebar">
@@ -23,7 +20,10 @@ function AdminSidebar({ activePage, onPageChange }) {
             Staff Accounts
           </li>
 
-          <li onClick={() => onPageChange('Reservations')}>
+          <li
+            className={activePage === 'Reservations' ? 'active' : ''}
+            onClick={() => onPageChange('Reservations')}
+          >
             Reservations
           </li>
 
