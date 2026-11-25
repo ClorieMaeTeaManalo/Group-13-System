@@ -3,7 +3,8 @@ import {
   getDashboardSummary,
   getAllReservations,
   updateReservationStatus,
-  getAllCleaningRequests
+  getAllCleaningRequests,
+  assignStaffToCleaningRequestController
 } from '../controllers/adminDashboardController.js';
 
 const router = express.Router();
@@ -19,5 +20,11 @@ router.patch('/reservations/:reservationId/status', updateReservationStatus);
 
 // Get all cleaning requests
 router.get('/cleaning-requests', getAllCleaningRequests);
+
+// Assign staff to a cleaning request
+router.patch(
+  '/cleaning-requests/:cleaningId/assign',
+  assignStaffToCleaningRequestController
+);
 
 export default router;

@@ -94,3 +94,35 @@ export const getAllCleaningRequests = async (req, res) => {
     });
   }
 };
+
+// Assign staff to a cleaning request
+export const assignStaffToCleaningRequestController = async (req, res) => {
+  try {
+    const { cleaningId } = req.params;
+    const { staffId } = req.body;
+
+    await adminDashboardService.assignStaffToCleaningRequest(
+      cleaningId,
+      staffId
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Staff assigned successfully!'
+    });
+
+  } catch (error) {
+    console.error('Assign Staff Error:', error);
+
+    const statusCode =
+      error.message === 'Cleaning request not found.' ||
+      error.message === 'Staff member not found.' ? 404 :
+      error.message === 'Invalid cleaning request ID.' ||
+      error.message === 'Invalid staff ID.' ? 400 : 500;
+
+    res.status(statusCode).json({
+      success: false,
+      message: error.message || 'Failed to assign staff.'
+    });
+  }
+};
