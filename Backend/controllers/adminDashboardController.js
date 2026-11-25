@@ -41,3 +41,34 @@ export const getAllReservations = async (req, res) => {
     });
   }
 };
+
+// Update reservation status
+export const updateReservationStatus = async (req, res) => {
+  try {
+    const { reservationId } = req.params;
+    const { status } = req.body;
+
+    await adminDashboardService.updateReservationStatus(
+      reservationId,
+      status
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Reservation status updated successfully!'
+    });
+
+  } catch (error) {
+    console.error('Update Reservation Status Error:', error);
+
+    const statusCode =
+      error.message === 'Reservation not found.' ? 404 :
+      error.message === 'Invalid reservation ID.' ||
+      error.message === 'Invalid reservation status.' ? 400 : 500;
+
+    res.status(statusCode).json({
+      success: false,
+      message: error.message || 'Failed to update reservation status.'
+    });
+  }
+};

@@ -32,7 +32,6 @@ export const getDashboardSummary = async () => {
   };
 };
 
-
 // Get all reservation records with customer information
 export const getAllReservations = async () => {
   const [reservations] = await pool.query(`
@@ -55,4 +54,25 @@ export const getAllReservations = async () => {
   `);
 
   return reservations;
+};
+
+// Update the status of a reservation
+export const updateReservationStatus = async (reservationId, status) => {
+  // Check if the reservation exists
+  const [rows] = await pool.query(
+    'SELECT reservation_id FROM reservations WHERE reservation_id = ?',
+    [reservationId]
+  );
+
+  if (rows.length === 0) {
+    return false;
+  }
+
+  // Update the reservation status
+  await pool.query(
+    'UPDATE reservations SET status = ? WHERE reservation_id = ?',
+    [status, reservationId]
+  );
+
+  return true;
 };
