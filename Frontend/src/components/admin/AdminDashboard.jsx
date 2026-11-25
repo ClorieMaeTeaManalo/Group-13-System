@@ -49,6 +49,11 @@ function AdminDashboard() {
   const [reservationLoading, setReservationLoading] = useState(false);
   const [reservationError, setReservationError] = useState('');
 
+  // Store reservation status update messages
+  const [statusMessage, setStatusMessage] = useState('');
+  const [statusError, setStatusError] = useState('');
+  const [statusLoading, setStatusLoading] = useState(null);
+
   // Filter staff accounts by name or email
   const filteredStaff = staffList.filter((staff) =>
     (staff.name || '').toLowerCase().includes(staffSearch.toLowerCase()) ||
@@ -131,6 +136,45 @@ function AdminDashboard() {
     }
   };
 
+  // Update reservation status
+  const handleUpdateReservationStatus = async (reservationId, status) => {
+    setStatusMessage('');
+    setStatusError('');
+    setStatusLoading(reservationId);
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/admin-dashboard/reservations/${reservationId}/status`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status })
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.message || 'Failed to update reservation status.'
+        );
+      }
+
+      setStatusMessage(result.message);
+
+      // Refresh reservation records after successful update
+      await fetchReservations();
+
+    } catch (error) {
+      console.error('Update Reservation Status Error:', error);
+      setStatusError(error.message);
+    } finally {
+      setStatusLoading(null);
+    }
+  };
+
   // Fetch records when an admin page is opened
   useEffect(() => {
     if (activePage === 'Staff Accounts') {
@@ -139,6 +183,8 @@ function AdminDashboard() {
 
     if (activePage === 'Reservations') {
       fetchReservations();
+      setStatusMessage('');
+      setStatusError('');
     }
   }, [activePage]);
 
@@ -447,6 +493,15 @@ function AdminDashboard() {
               <p>View and review all customer reservations.</p>
             </div>
 
+            {/* Reservation Status Messages */}
+            {statusMessage && (
+              <p className="staff-success">{statusMessage}</p>
+            )}
+
+            {statusError && (
+              <p className="staff-error">{statusError}</p>
+            )}
+
             {reservationLoading ? (
               <p>Loading reservation records...</p>
             ) : reservationError ? (
@@ -490,7 +545,29 @@ function AdminDashboard() {
                           </td>
                           <td>{reservation.guests}</td>
                           <td>{reservation.special_requests || 'None'}</td>
-                          <td>{reservation.status}</td>
+                          <td>
+                            <select
+                              value={reservation.status}
+                              onChange={(e) =>
+                                handleUpdateReservationStatus(
+                                  reservation.reservation_id,
+                                  e.target.value
+                                )
+                              }
+                              disabled={
+                                statusLoading === reservation.reservation_id
+                              }
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="confirmed">Confirmed</option>
+                              <option value="cancelled">Cancelled</option>
+                              <option value="completed">Completed</option>
+                            </select>
+
+                            {statusLoading === reservation.reservation_id && (
+                              <p>Updating...</p>
+                            )}
+                          </td>
                         </tr>
                       ))
                     )}
