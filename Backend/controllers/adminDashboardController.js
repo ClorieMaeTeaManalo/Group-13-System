@@ -72,3 +72,25 @@ export const updateReservationStatus = async (req, res) => {
     });
   }
 };
+
+// Get all cleaning requests
+export const getAllCleaningRequests = async (req, res) => {
+  try {
+    const cleaningRequests =
+      await adminDashboardService.getAllCleaningRequests();
+
+    res.status(200).json({
+      success: true,
+      message: 'Cleaning requests retrieved successfully!',
+      data: cleaningRequests
+    });
+
+  } catch (error) {
+    console.error('Get Cleaning Requests Error:', error);
+
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve cleaning requests.'
+    });
+  }
+};

@@ -76,3 +76,59 @@ export const updateReservationStatus = async (reservationId, status) => {
 
   return true;
 };
+
+// Automatically create cleaning requests for reservations
+// that have reached their checkout date
+export const createAutomaticCleaningRequests = async () => {
+  await pool.query(`
+    INSERT INTO cleaning_reports (
+      reservation_id,
+      staff_id,
+      description,
+      status
+    )
+    SELECT
+      r.reservation_id,
+      NULL,
+      'Automatic cleaning request after checkout',
+      'pending'
+    FROM reservations r
+    WHERE r.check_out <= CURDATE()
+      AND r.status IN ('confirmed', 'completed')
+      AND NOT EXISTS (
+        SELECT 1
+        FROM cleaning_reports cr
+        WHERE cr.reservation_id = r.reservation_id
+      )
+  `);
+};
+
+// Get all cleaning requests
+export const getAllCleaningRequests = async () => {
+  const [cleaningRequests] = await pool.query(`
+    SELECT
+      cr.cleaning_id,
+      cr.reservation_id,
+      c.name AS customer_name,
+      c.email AS customer_email,
+      r.check_in,
+      r.check_out,
+      r.guests,
+      s.staff_id,
+      s.name AS staff_name,
+      cr.description,
+      cr.status,
+      cr.completed_at,
+      cr.created_at
+    FROM cleaning_reports cr
+    INNER JOIN reservations r
+      ON cr.reservation_id = r.reservation_id
+    INNER JOIN customers c
+      ON r.customer_id = c.customer_id
+    LEFT JOIN staff s
+      ON cr.staff_id = s.staff_id
+    ORDER BY cr.created_at DESC
+  `);
+
+  return cleaningRequests;
+};
