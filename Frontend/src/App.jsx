@@ -4,6 +4,7 @@ import MainLogin from './components/admin/MainLogin.jsx';
 import AdminDashboard from './components/admin/AdminDashboard.jsx';
 import CustomerRegistration from './components/customer/CustomerRegistration.jsx';
 import CustomerDashboard from './components/customer/CustomerDashboard.jsx';
+import CustomerProfile from './components/customer/CustomerProfile.jsx';
 import StaffDashboard from './components/staff/StaffDashboard.jsx';
 
 function App() {
@@ -37,8 +38,28 @@ if (admin) {
 
   // Display customer dashboard
   if (customer) {
-    return <CustomerDashboard customer={customer} />;
+  if (currentPage === '/customer-profile') {
+    return (
+      <CustomerProfile
+        customer={customer}
+        onBack={() => {
+          window.history.pushState({}, '', '/customer-dashboard');
+          setCurrentPage('/customer-dashboard');
+        }}
+      />
+    );
   }
+
+  return (
+    <CustomerDashboard
+      customer={customer}
+      onOpenProfile={() => {
+        window.history.pushState({}, '', '/customer-profile');
+        setCurrentPage('/customer-profile');
+      }}
+    />
+  );
+}
   
   // Display staff dashboard
   if (staff) {

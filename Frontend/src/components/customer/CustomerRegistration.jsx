@@ -118,14 +118,10 @@ function CustomerRegistration({ onBackToLogin, onRegisterSuccess }) {
       }
 
       // Display successful verification
-      setMessage("Email verified successfully!");
-      setMessageType("success");
+window.alert("Email verified successfully! Please log in to continue.");
 
-      // Proceed to customer dashboard
-      onRegisterSuccess({
-        ...pendingCustomer,
-        verification_status: "Verified"
-      });
+// Return to login page
+onBackToLogin();
 
     } catch (error) {
       // Handle connection errors

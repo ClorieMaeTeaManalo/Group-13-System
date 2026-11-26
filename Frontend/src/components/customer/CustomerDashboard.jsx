@@ -2,7 +2,7 @@
 import React from "react";
 import "./CustomerDashboard.css";
 
-function CustomerDashboard() {
+function CustomerDashboard({ customer, onOpenProfile }) {
 
   return (
     <main className="customer-dashboard">
@@ -23,11 +23,19 @@ function CustomerDashboard() {
         </p>
 
         <div className="customer-dashboard-card">
-          <h2>Customer Dashboard</h2>
-          <p>
-            Your account has been successfully created.
-          </p>
-        </div>
+  <h2>Customer Dashboard</h2>
+
+  <p>
+    Your account has been successfully created.
+  </p>
+
+  <button
+  className="customer-profile-button"
+  onClick={onOpenProfile}
+>
+  My Profile
+</button>
+</div>
       </section>
 
       {/* Footer */}
