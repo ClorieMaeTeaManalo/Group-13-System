@@ -147,3 +147,34 @@ export const getAllMaintenanceReports = async (req, res) => {
     });
   }
 };
+
+ // Update maintenance report status and admin notes
+export const updateMaintenanceReportController = async (req, res) => {
+  try {
+    // Get maintenance report ID from URL
+    const { maintenanceId } = req.params;
+
+    // Get status and admin notes from request body
+    const { status, adminNotes } = req.body;
+
+    // Send the data to the service
+    await adminDashboardService.updateMaintenanceReport(
+      maintenanceId,
+      status,
+      adminNotes
+    );
+
+    // Send success response
+    res.status(200).json({
+      success: true,
+      message: 'Maintenance report updated successfully!'
+    });
+
+  } catch (error) {
+    // Send error response
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};

@@ -190,3 +190,25 @@ export const getAllMaintenanceReports = async () => {
 
   return reports;
 };
+
+// Update maintenance report status and administrator notes
+export const updateMaintenanceReport = async (
+  maintenanceId,
+  status,
+  adminNotes
+) => {
+  const [result] = await pool.query(
+    `UPDATE maintenance_reports
+     SET
+       status = ?,
+       admin_notes = ?,
+       resolved_at = CASE
+         WHEN ? = 'resolved' THEN NOW()
+         ELSE NULL
+       END
+     WHERE maintenance_id = ?`,
+    [status, adminNotes, status, maintenanceId]
+  );
+
+  return result.affectedRows > 0;
+};

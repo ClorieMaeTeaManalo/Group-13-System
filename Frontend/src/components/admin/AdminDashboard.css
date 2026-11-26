@@ -1347,3 +1347,178 @@
     padding: 10px;
   }
 }
+
+/* Modern Sign Out Button */
+
+.admin-sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar nav {
+  flex: 1;
+}
+
+.sidebar-logout {
+  margin-top: auto;
+  padding: 20px 0;
+}
+
+.sidebar-logout button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 16px;
+  background: #694638;
+  color: #fff8ed;
+  border: 1px solid #8c604b;
+  border-radius: 12px;
+  font-family: 'Lato', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sidebar-logout button:hover {
+  background: #8c604b;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+}
+
+.sidebar-logout button:active {
+  transform: translateY(0);
+}
+
+.sidebar-logout .logout-icon {
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+/* Modern Maintenance Status Dropdown */
+.maintenance-report-details select {
+  width: 100%;
+  padding: 12px 16px;
+  margin: 8px 0 18px;
+  border: 1px solid #d6e2e8;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #263746;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.maintenance-report-details select:focus {
+  border-color: #3996a8;
+  box-shadow: 0 0 0 3px rgba(57, 150, 168, 0.15);
+}
+
+.maintenance-report-details select option {
+  background-color: #ffffff;
+  color: #263746;
+  padding: 10px;
+}
+
+/* Maintenance Report Review Form */
+.maintenance-report-details {
+  margin-top: 25px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e4edf0;
+  border-radius: 16px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+}
+
+.maintenance-report-details h3 {
+  margin: 0 0 24px;
+  color: #263746;
+  font-size: 20px;
+}
+
+.maintenance-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.maintenance-form-group label {
+  color: #34495e;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.maintenance-form-group select,
+.maintenance-form-group textarea {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid #dce6eb;
+  border-radius: 10px;
+  background: #f9fbfc;
+  color: #263746;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.maintenance-form-group select:focus,
+.maintenance-form-group textarea:focus {
+  border-color: #3996a8;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(57, 150, 168, 0.12);
+}
+
+.maintenance-form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.maintenance-form-buttons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.maintenance-form-buttons button {
+  min-width: 130px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.maintenance-form-buttons button:first-child {
+  background: #258b9b;
+  color: #ffffff;
+}
+
+.maintenance-form-buttons button:first-child:hover {
+  background: #1c7180;
+}
+
+.maintenance-form-buttons button:last-child {
+  background: #edf2f4;
+  color: #40515c;
+}
+
+.maintenance-form-buttons button:last-child:hover {
+  background: #dce5e9;
+}
+
+.maintenance-form-buttons button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
