@@ -24,6 +24,9 @@ import customerLoginRoutes from './routes/customerLoginRoutes.js';
 
 import customerProfileRoutes from './routes/customerProfileRoutes.js';
 
+// Customer Reservation Routes
+import reservationRoutes from './routes/reservationRoutes.js';
+
 // Staff Account Creation Routes
 import accountRoutes from './routes/AccountRoutes.js';
 
@@ -55,6 +58,9 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/customers', customerLoginRoutes);
 
 app.use('/api/customers', customerProfileRoutes);
+
+// Customer Reservation Routes
+app.use('/api/reservations', reservationRoutes);
 
 // Staff Account Creation Routes
 app.use('/api/accounts', accountRoutes);
