@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import "./CustomerReservation.css";
 
 function CustomerReservation({ customer, onBack }) {
 
@@ -51,11 +52,11 @@ function CustomerReservation({ customer, onBack }) {
       }
 
       if (
-  !Number.isInteger(Number(formData.guests)) ||
-  Number(formData.guests) < 1
-) {
-  throw new Error("Number of guests must be a positive whole number.");
-}
+        !Number.isInteger(Number(formData.guests)) ||
+        Number(formData.guests) < 1
+      ) {
+        throw new Error("Number of guests must be a positive whole number.");
+      }
 
       const response = await fetch(
         "http://localhost:3000/api/reservations",
@@ -89,129 +90,122 @@ function CustomerReservation({ customer, onBack }) {
   };
 
   return (
-    <main style={{
-      minHeight: "100vh",
-      background: "#F4F5EF",
-      padding: "40px 20px",
-      fontFamily: "Arial, sans-serif"
-    }}>
+    <main className="customer-reservation">
 
-      <div style={{
-        maxWidth: "600px",
-        margin: "0 auto",
-        background: "white",
-        padding: "30px",
-        borderRadius: "12px"
-      }}>
+      <div className="reservation-container">
 
-        <h1>Make a Reservation</h1>
-
-        <p>Enter your preferred reservation details.</p>
-
-        {message && (
-          <p style={{
-            color: reservation ? "green" : "red",
-            fontWeight: "bold"
-          }}>
-            {message}
-          </p>
-        )}
-
-        {reservation && (
+        <header className="reservation-header">
+          <p className="reservation-subtitle">BELLA BEACH RESORT</p>
+          <h1>Make a Reservation</h1>
           <p>
-            Reservation ID: {reservation.reservation_id}
-            <br />
-            Status: {reservation.status}
+            Plan your stay with us. Enter your preferred reservation details below.
           </p>
-        )}
+        </header>
 
-        <form onSubmit={handleSubmit}>
+        <section className="reservation-card">
 
-          <div style={{ marginBottom: "20px" }}>
-            <label>Check-in Date:</label>
-            <input
-              type="date"
-              name="check_in"
-              min={minDate}
-              value={formData.check_in}
-              onChange={handleChange}
-              required
-              style={{ display: "block", width: "100%", padding: "10px", marginTop: "8px" }}
-            />
-          </div>
+          <h2>Reservation Details</h2>
+          <p className="reservation-description">
+            Please complete the form to submit your reservation request.
+          </p>
 
-          <div style={{ marginBottom: "20px" }}>
-            <label>Check-out Date:</label>
-            <input
-              type="date"
-              name="check_out"
-              min={formData.check_in || minDate}
-              value={formData.check_out}
-              onChange={handleChange}
-              required
-              style={{ display: "block", width: "100%", padding: "10px", marginTop: "8px" }}
-            />
-          </div>
+          {message && (
+            <p className={`reservation-message ${reservation ? "success" : "error"}`}>
+              {message}
+            </p>
+          )}
 
-          <div style={{ marginBottom: "20px" }}>
-            <label>Number of Guests:</label>
-            <input
-              type="number"
-              name="guests"
-              min="1"
-              value={formData.guests}
-              onChange={handleChange}
-              required
-              style={{ display: "block", width: "100%", padding: "10px", marginTop: "8px" }}
-            />
-          </div>
+          {reservation && (
+            <div className="reservation-result">
+              <p>
+                <strong>Reservation ID:</strong> {reservation.reservation_id}
+              </p>
+              <p>
+                <strong>Status:</strong> {reservation.status}
+              </p>
+            </div>
+          )}
 
-          <div style={{ marginBottom: "20px" }}>
-            <label>Special Requests:</label>
-            <textarea
-              name="special_requests"
-              value={formData.special_requests}
-              onChange={handleChange}
-              placeholder="Enter any special requests (optional)"
-              rows="4"
-              style={{ display: "block", width: "100%", padding: "10px", marginTop: "8px" }}
-            />
-          </div>
+          <form onSubmit={handleSubmit}>
 
-          <button
-            type="submit"
-            disabled={saving}
-            style={{
-              padding: "12px 20px",
-              background: "#203D32",
-              color: "white",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer"
-            }}
-          >
-            {saving ? "Submitting..." : "Submit Reservation"}
-          </button>
+            <div className="reservation-field">
+              <label htmlFor="check_in">Check-in Date</label>
+              <input
+                id="check_in"
+                type="date"
+                name="check_in"
+                min={minDate}
+                value={formData.check_in}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <button
-            type="button"
-            onClick={onBack}
-            style={{
-              padding: "12px 20px",
-              marginLeft: "10px",
-              background: "#647C5D",
-              color: "white",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer"
-            }}
-          >
-            Back
-          </button>
+            <div className="reservation-field">
+              <label htmlFor="check_out">Check-out Date</label>
+              <input
+                id="check_out"
+                type="date"
+                name="check_out"
+                min={formData.check_in || minDate}
+                value={formData.check_out}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        </form>
+            <div className="reservation-field">
+              <label htmlFor="guests">Number of Guests</label>
+              <input
+                id="guests"
+                type="number"
+                name="guests"
+                min="1"
+                step="1"
+                value={formData.guests}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="reservation-field">
+              <label htmlFor="special_requests">Special Requests</label>
+              <textarea
+                id="special_requests"
+                name="special_requests"
+                value={formData.special_requests}
+                onChange={handleChange}
+                placeholder="Enter any special requests (optional)"
+                rows="4"
+              />
+            </div>
+
+            <div className="reservation-buttons">
+
+              <button
+                type="submit"
+                className="reservation-submit"
+                disabled={saving}
+              >
+                {saving ? "Submitting..." : "Submit Reservation"}
+              </button>
+
+              <button
+                type="button"
+                className="reservation-back"
+                onClick={onBack}
+              >
+                Back
+              </button>
+
+            </div>
+
+          </form>
+
+        </section>
 
       </div>
+
     </main>
   );
 }
