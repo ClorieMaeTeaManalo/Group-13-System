@@ -1,0 +1,98 @@
+
+/* Customer Profile Page */
+.customer-profile {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(32, 61, 50, 0.08);
+  font-family: Arial, sans-serif;
+}
+
+/* Profile Heading */
+.customer-profile h1 {
+  color: #203D32;
+  font-family: Georgia, serif;
+  font-size: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Form Fields */
+.customer-profile div {
+  margin-bottom: 20px;
+}
+
+.customer-profile label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #203D32;
+}
+
+.customer-profile input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #D8DED5;
+  border-radius: 7px;
+  font-size: 15px;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+}
+
+.customer-profile input:focus {
+  outline: none;
+  border-color: #647C5D;
+  box-shadow: 0 0 0 2px rgba(100, 124, 93, 0.12);
+}
+
+.customer-profile input[readonly] {
+  background-color: #F4F5EF;
+  color: #777777;
+  cursor: not-allowed;
+}
+
+/* Buttons */
+.customer-profile button {
+  padding: 13px 22px;
+  margin-right: 10px;
+  margin-top: 10px;
+  border: 1px solid #203D32;
+  border-radius: 6px;
+  background-color: #203D32;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.customer-profile button:hover {
+  background-color: #647C5D;
+  border-color: #647C5D;
+}
+
+.customer-profile button:disabled {
+  background-color: #AAAAAA;
+  border-color: #AAAAAA;
+  cursor: not-allowed;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .customer-profile {
+    margin: 25px 15px;
+    padding: 25px 20px;
+  }
+
+  .customer-profile h1 {
+    font-size: 25px;
+  }
+
+  .customer-profile button {
+    width: 100%;
+    margin: 8px 0;
+  }
+}

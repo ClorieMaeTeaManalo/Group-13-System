@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from "react";
+import "./CustomerProfile.css";
 
 function CustomerProfile({ customer, onBack }) {
   const [profile, setProfile] = useState({
@@ -85,7 +86,7 @@ function CustomerProfile({ customer, onBack }) {
   }
 
   return (
-    <main>
+    <main className="customer-profile">
       <h1>My Profile</h1>
 
       {message && (
@@ -138,10 +139,7 @@ function CustomerProfile({ customer, onBack }) {
         />
       </div>
 
-      <button
-        onClick={handleUpdateProfile}
-        disabled={saving}
-      >
+      <button onClick={handleUpdateProfile} disabled={saving}>
         {saving ? "Saving..." : "Save Changes"}
       </button>
 
