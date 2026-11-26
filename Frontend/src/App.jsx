@@ -22,9 +22,18 @@ function App() {
   );
 
   // Display administrator dashboard
-  if (admin) {
-    return <AdminDashboard />;
-  }
+if (admin) {
+  return (
+    <AdminDashboard
+      onLogout={() => {
+        setAdmin(null);
+
+        window.history.pushState({}, '', '/');
+        setCurrentPage('/');
+      }}
+    />
+  );
+}
 
   // Display customer dashboard
   if (customer) {

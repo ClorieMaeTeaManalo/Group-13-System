@@ -4,7 +4,7 @@ import './AdminDashboard.css';
 import beachImage from '../../assets/bella-beachh.jpg';
 import backgroundImage from '../../assets/beach2.jpg';
 
-function AdminDashboard() {
+function AdminDashboard({ onLogout }) {
   // Store dashboard summary
   const [summary, setSummary] = useState({
     totalReservations: 0,
@@ -75,6 +75,13 @@ function AdminDashboard() {
   // Store selected maintenance report details
   const [selectedMaintenanceReport, setSelectedMaintenanceReport] = useState(null);
 
+  // Store maintenance report update values
+const [maintenanceStatus, setMaintenanceStatus] = useState('pending');
+const [maintenanceNotes, setMaintenanceNotes] = useState('');
+const [maintenanceUpdateMessage, setMaintenanceUpdateMessage] = useState('');
+const [maintenanceUpdateError, setMaintenanceUpdateError] = useState('');
+const [maintenanceUpdateLoading, setMaintenanceUpdateLoading] = useState(false);
+
   // Count cleaning requests based on their status
   const pendingCleaningCount = cleaningRequestList.filter(
     (request) => request.status === 'pending'
@@ -87,6 +94,18 @@ function AdminDashboard() {
   const completedCleaningCount = cleaningRequestList.filter(
     (request) => request.status === 'completed'
   ).length;
+  // Count maintenance reports based on their status
+const pendingMaintenanceCount = maintenanceReportList.filter(
+  (report) => report.status === 'pending'
+).length;
+
+const inProgressMaintenanceCount = maintenanceReportList.filter(
+  (report) => report.status === 'in_progress'
+).length;
+
+const resolvedMaintenanceCount = maintenanceReportList.filter(
+  (report) => report.status === 'resolved'
+).length;
 
   // Filter staff accounts by name or email
   const filteredStaff = staffList.filter(
@@ -306,6 +325,60 @@ function AdminDashboard() {
       setAssignLoading(null);
     }
   };
+  // Update maintenance report status and admin notes
+const handleUpdateMaintenanceReport = async () => {
+  if (!selectedMaintenanceReport) return;
+
+  setMaintenanceUpdateMessage('');
+  setMaintenanceUpdateError('');
+  setMaintenanceUpdateLoading(true);
+
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/admin-dashboard/maintenance-reports/${selectedMaintenanceReport.maintenance_id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          status: maintenanceStatus,
+          adminNotes: maintenanceNotes
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.message || 'Failed to update maintenance report.'
+      );
+    }
+
+    setMaintenanceUpdateMessage('Maintenance report updated successfully!');
+
+    // Refresh maintenance reports after updating
+    await fetchMaintenanceReports();
+
+    // Update the selected report details
+    setSelectedMaintenanceReport((previousReport) => ({
+      ...previousReport,
+      status: maintenanceStatus,
+      admin_notes: maintenanceNotes,
+      resolved_at:
+        maintenanceStatus === 'resolved'
+          ? new Date().toISOString()
+          : null
+    }));
+
+  } catch (error) {
+    console.error('Update Maintenance Report Error:', error);
+    setMaintenanceUpdateError(error.message);
+  } finally {
+    setMaintenanceUpdateLoading(false);
+  }
+};
 
   // Fetch records when an admin page is opened
   useEffect(() => {
@@ -420,9 +493,10 @@ function AdminDashboard() {
   return (
     <div className="admin-layout">
       <AdminSidebar
-        activePage={activePage}
-        onPageChange={setActivePage}
-      />
+  activePage={activePage}
+  onPageChange={setActivePage}
+  onLogout={onLogout}
+/>
 
       <main
         className="admin-content"
@@ -894,136 +968,203 @@ activePage === 'Maintenance Reports'
           </div>
         )}
 
+
 {/* Display Maintenance Reports Page */}
 {activePage === 'Maintenance Reports' && (
-   <div
-  className="maintenance-management-page beach-background-page"
-  style={{ '--beach-background': `url(${backgroundImage})` }}
->
-
+  <div
+    className="maintenance-management-page beach-background-page"
+    style={{ '--beach-background': `url(${backgroundImage})` }}
+  >
     <div className="maintenance-page-header">
       <h1>Maintenance Reports</h1>
-      <p>Review maintenance issues submitted by resort staff.</p>
+      <p>Monitor maintenance issues reported by resort staff.</p>
     </div>
 
+    {/* Maintenance Summary Cards */}
+    <div className="cleaning-summary-cards">
+      <div className="cleaning-summary-card pending-card">
+        <div className="cleaning-card-icon">
+          <span>◷</span>
+        </div>
+
+        <div>
+          <h3>Pending</h3>
+          <h2>{pendingMaintenanceCount}</h2>
+          <p>Waiting for review</p>
+        </div>
+      </div>
+
+      <div className="cleaning-summary-card progress-card">
+        <div className="cleaning-card-icon">
+          <span>↻</span>
+        </div>
+
+        <div>
+          <h3>In Progress</h3>
+          <h2>{inProgressMaintenanceCount}</h2>
+          <p>Currently being handled</p>
+        </div>
+      </div>
+
+      <div className="cleaning-summary-card completed-card">
+        <div className="cleaning-card-icon">
+          <span>✓</span>
+        </div>
+
+        <div>
+          <h3>Resolved</h3>
+          <h2>{resolvedMaintenanceCount}</h2>
+          <p>Issues resolved</p>
+        </div>
+      </div>
+    </div>
+
+    {/* Maintenance Report List */}
     {maintenanceReportLoading ? (
       <p>Loading maintenance reports...</p>
     ) : maintenanceReportError ? (
       <p className="staff-error">{maintenanceReportError}</p>
     ) : (
-      <div className="maintenance-table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Report ID</th>
-              <th>Issue Title</th>
-              <th>Submitted By</th>
-              <th>Priority</th>
-              <th>Date Submitted</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+      <div className="cleaning-request-list">
+        {maintenanceReportList.length === 0 ? (
+          <p className="no-cleaning-requests">
+            No maintenance reports found.
+          </p>
+        ) : (
+          maintenanceReportList.map((report) => (
+            <div
+              className="cleaning-request-card"
+              key={report.maintenance_id}
+            >
+              <h2>Maintenance Report #{report.maintenance_id}</h2>
 
-          <tbody>
-            {maintenanceReportList.length === 0 ? (
-              <tr>
-                <td colSpan="7" style={{ textAlign: 'center' }}>
-                  No maintenance reports found.
-                </td>
-              </tr>
-            ) : (
-              maintenanceReportList.map((report) => (
-                <tr key={report.maintenance_id}>
-                  <td>{report.maintenance_id}</td>
-                  <td>{report.issue_title}</td>
-                  <td>{report.staff_name}</td>
-                  <td>{report.priority}</td>
-                  <td>
-                    {new Date(report.created_at).toLocaleDateString()}
-                  </td>
-                  <td>{report.status.replace('_', ' ')}</td>
-                  <td>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedMaintenanceReport(report)}
-                    >
-                      View Details
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              <div className="cleaning-request-details">
+                <p>
+                  <strong>Issue Title:</strong>{' '}
+                  {report.issue_title}
+                </p>
+
+                <p>
+                  <strong>Submitted By:</strong>{' '}
+                  {report.staff_name}
+                </p>
+
+                <p>
+                  <strong>Priority:</strong>{' '}
+                  {report.priority}
+                </p>
+
+                <p>
+                  <strong>Description:</strong>{' '}
+                  {report.description}
+                </p>
+
+                <p>
+                  <strong>Date Submitted:</strong>{' '}
+                  {report.created_at
+                    ? new Date(report.created_at).toLocaleString()
+                    : '—'}
+                </p>
+
+                <p>
+                  <strong>Status:</strong>{' '}
+                  {report.status.replace('_', ' ')}
+                </p>
+
+                <p>
+                  <strong>Admin Notes:</strong>{' '}
+                  {report.admin_notes || 'None'}
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedMaintenanceReport(report);
+                    setMaintenanceStatus(report.status || 'pending');
+                    setMaintenanceNotes(report.admin_notes || '');
+                    setMaintenanceUpdateMessage('');
+                    setMaintenanceUpdateError('');
+                  }}
+                >
+                  Review Report
+                </button>
+              </div>
+
+              {/* Maintenance Report Update Form */}
+              {selectedMaintenanceReport &&
+                selectedMaintenanceReport.maintenance_id === report.maintenance_id && (
+                  
+<div className="maintenance-report-details">
+  <h3>Review Maintenance Report</h3>
+
+  {/* Update Maintenance Status */}
+  <div className="maintenance-form-group">
+    <label>Update Status</label>
+
+    <select
+      value={maintenanceStatus}
+      onChange={(e) => setMaintenanceStatus(e.target.value)}
+    >
+      <option value="pending">Pending</option>
+      <option value="in_progress">In Progress</option>
+      <option value="resolved">Resolved</option>
+    </select>
+  </div>
+
+  {/* Administrator Notes */}
+  <div className="maintenance-form-group">
+    <label>Administrator Notes</label>
+
+    <textarea
+      rows="4"
+      placeholder="Enter notes or actions taken..."
+      value={maintenanceNotes}
+      onChange={(e) => setMaintenanceNotes(e.target.value)}
+    />
+  </div>
+
+  {/* Update Messages */}
+  {maintenanceUpdateMessage && (
+    <p className="staff-success">
+      {maintenanceUpdateMessage}
+    </p>
+  )}
+
+  {maintenanceUpdateError && (
+    <p className="staff-error">
+      {maintenanceUpdateError}
+    </p>
+  )}
+
+  {/* Form Buttons */}
+  <div className="maintenance-form-buttons">
+    <button
+      type="button"
+      onClick={handleUpdateMaintenanceReport}
+      disabled={maintenanceUpdateLoading}
+    >
+      {maintenanceUpdateLoading ? 'Saving...' : 'Save Changes'}
+    </button>
+
+    <button
+      type="button"
+      onClick={() => {
+        setSelectedMaintenanceReport(null);
+        setMaintenanceUpdateMessage('');
+        setMaintenanceUpdateError('');
+      }}
+    >
+      Close
+    </button>
+  </div>
+</div>
+
+                )}
+            </div>
+          ))
+        )}
       </div>
     )}
-
-    {/* Maintenance Report Full Details */}
-    {selectedMaintenanceReport && (
-      <div className="maintenance-report-details">
-        <h2>Maintenance Report Details</h2>
-
-        <p>
-          <strong>Report ID:</strong>{' '}
-          {selectedMaintenanceReport.maintenance_id}
-        </p>
-
-        <p>
-          <strong>Issue Title:</strong>{' '}
-          {selectedMaintenanceReport.issue_title}
-        </p>
-
-        <p>
-          <strong>Submitted By:</strong>{' '}
-          {selectedMaintenanceReport.staff_name}
-        </p>
-
-        <p>
-          <strong>Description:</strong>{' '}
-          {selectedMaintenanceReport.description}
-        </p>
-
-        <p>
-          <strong>Priority:</strong>{' '}
-          {selectedMaintenanceReport.priority}
-        </p>
-
-        <p>
-          <strong>Date Submitted:</strong>{' '}
-          {new Date(
-            selectedMaintenanceReport.created_at
-          ).toLocaleString()}
-        </p>
-
-        <p>
-          <strong>Current Status:</strong>{' '}
-          {selectedMaintenanceReport.status.replace('_', ' ')}
-        </p>
-
-        <p>
-          <strong>Admin Notes:</strong>{' '}
-          {selectedMaintenanceReport.admin_notes || 'None'}
-        </p>
-
-        <p>
-          <strong>Resolved Date:</strong>{' '}
-          {selectedMaintenanceReport.resolved_at
-            ? new Date(
-                selectedMaintenanceReport.resolved_at
-              ).toLocaleString()
-            : 'Not yet resolved'}
-        </p>
-
-        <button
-          type="button"
-          onClick={() => setSelectedMaintenanceReport(null)}
-        >
-          Close Details
-        </button>
-      </div>
-    )}
-
   </div>
 )}
 
