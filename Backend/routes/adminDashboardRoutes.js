@@ -5,7 +5,8 @@ import {
   updateReservationStatus,
   getAllCleaningRequests,
   assignStaffToCleaningRequestController,
-  getAllMaintenanceReports
+  getAllMaintenanceReports,
+  updateMaintenanceReportController
 } from '../controllers/adminDashboardController.js';
 
 const router = express.Router();
@@ -30,5 +31,11 @@ router.patch(
 
 // Get all maintenance reports
 router.get('/maintenance-reports', getAllMaintenanceReports);
+
+ // Update maintenance report status and admin notes
+router.patch(
+  '/maintenance-reports/:maintenanceId',
+  updateMaintenanceReportController
+);
 
 export default router;

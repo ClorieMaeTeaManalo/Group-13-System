@@ -83,3 +83,30 @@ export const assignStaffToCleaningRequest = async (cleaningId, staffId) => {
 export const getAllMaintenanceReports = async () => {
   return await adminDashboardModel.getAllMaintenanceReports();
 };
+
+// Update maintenance report status and admin notes
+export const updateMaintenanceReport = async (
+  maintenanceId,
+  status,
+  adminNotes
+) => {
+  // Check if the status is valid
+  const validStatuses = ['pending', 'in_progress', 'resolved'];
+
+  if (!validStatuses.includes(status)) {
+    throw new Error('Invalid maintenance report status.');
+  }
+
+  // Update the maintenance report
+  const updated = await adminDashboardModel.updateMaintenanceReport(
+    maintenanceId,
+    status,
+    adminNotes
+  );
+
+  if (!updated) {
+    throw new Error('Maintenance report not found.');
+  }
+
+  return true;
+};
