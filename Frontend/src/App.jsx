@@ -5,6 +5,7 @@ import AdminDashboard from './components/admin/AdminDashboard.jsx';
 import CustomerRegistration from './components/customer/CustomerRegistration.jsx';
 import CustomerDashboard from './components/customer/CustomerDashboard.jsx';
 import CustomerProfile from './components/customer/CustomerProfile.jsx';
+import CustomerReservation from './components/customer/CustomerReservation.jsx';
 import StaffDashboard from './components/staff/StaffDashboard.jsx';
 
 function App() {
@@ -38,6 +39,17 @@ if (admin) {
 
   // Display customer dashboard
   if (customer) {
+    if (currentPage === '/customer-reservation') {
+  return (
+    <CustomerReservation
+      customer={customer}
+      onBack={() => {
+        window.history.pushState({}, '', '/customer-dashboard');
+        setCurrentPage('/customer-dashboard');
+      }}
+    />
+  );
+}
   if (currentPage === '/customer-profile') {
     return (
       <CustomerProfile
@@ -56,6 +68,10 @@ if (admin) {
       onOpenProfile={() => {
         window.history.pushState({}, '', '/customer-profile');
         setCurrentPage('/customer-profile');
+      }}
+      onOpenReservation={() => {
+        window.history.pushState({}, '', '/customer-reservation');
+        setCurrentPage('/customer-reservation');
       }}
     />
   );

@@ -2,7 +2,7 @@
 import React from "react";
 import "./CustomerDashboard.css";
 
-function CustomerDashboard({ customer, onOpenProfile }) {
+function CustomerDashboard({ customer, onOpenProfile, onOpenReservation }) {
 
   return (
     <main className="customer-dashboard">
@@ -35,6 +35,14 @@ function CustomerDashboard({ customer, onOpenProfile }) {
 >
   My Profile
 </button>
+
+<button
+  className="customer-profile-button"
+  onClick={onOpenReservation}
+>
+  Make a Reservation
+</button>
+
 </div>
       </section>
 
