@@ -215,7 +215,8 @@ function AssignedCleaningTasks({staff}) {
                                     reports.map(report => (
                                     <tr key={report.cleaning_id}>
                                     <td>{report.cleaning_id}</td>
-                                    <td>{report.completed_at}</td>
+                                    <td>{new Date(report.completed_at).toLocaleDateString('en-GB', {
+                                        timeZone: 'Asia/Manila'})}</td>
                                     <td>{report.room_condition}</td>
                                     </tr>
                                 ))
