@@ -1,43 +1,82 @@
+
+/* Cleaning Report Form */
 .cleaning-report-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    min-width: 200px;
+    gap: 12px;
+    min-width: 220px;
+    padding: 20px;
+    background-color: #fffdf9;
+    border: 1px solid #eadbc9;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(105, 70, 56, 0.06);
 }
 
+/* Form Title */
 .cleaning-report-form h3 {
-    margin: 0;
-    font-size: 16px;
+    margin: 0 0 5px;
+    color: #694638;
+    font-size: 18px;
+    font-weight: 700;
 }
 
+/* Labels */
 .cleaning-report-form label {
-    font-weight: bold;
+    color: #694638;
+    font-weight: 600;
     font-size: 13px;
 }
 
+/* Date and Textarea */
 .cleaning-report-form input,
 .cleaning-report-form textarea {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    border: 1px solid #d5c2ad;
+    border-radius: 8px;
+    background-color: #fff8ed;
+    color: #694638;
+    font-family: inherit;
     font-size: 13px;
+    outline: none;
 }
 
+/* Input Focus */
+.cleaning-report-form input:focus,
+.cleaning-report-form textarea:focus {
+    border-color: #694638;
+    box-shadow: 0 0 0 2px rgba(105, 70, 56, 0.10);
+}
+
+/* Room Condition */
 .cleaning-report-form textarea {
     resize: vertical;
-    min-height: 65px;
+    min-height: 90px;
 }
 
+/* Submit Button */
 .cleaning-report-form button {
-    padding: 8px 12px;
-    background-color: #287a65;
-    color: white;
+    width: 100%;
+    padding: 11px 15px;
+    margin-top: 5px;
+    background-color: #694638;
+    color: #fff8ed;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 .cleaning-report-form button:hover {
-    background-color: #1d5d4d;
+    background-color: #52352a;
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+    .cleaning-report-form {
+        padding: 15px;
+    }
 }

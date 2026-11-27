@@ -5,6 +5,7 @@ import beachImage from '../../assets/bella-beachh.jpg';
 
 import CleaningTaskStatus from './CleaningTaskStatus';
 import CleaningReportForm from './CleaningReportForm';
+import MaintenanceReportForm from './MaintenanceReportForm.jsx';
 
 
 function AssignedCleaningTasks({staff}) {
@@ -78,7 +79,21 @@ function AssignedCleaningTasks({staff}) {
             </a>
         </li>
 
-        <li>Maintenance Reports</li>
+        <li className={activeMenu === 'maintenance' ? 'active' : ''}>
+    <a
+        href="#maintenance-reports"
+        onClick={() => {
+            setActiveMenu('maintenance');
+
+            document.getElementById('maintenance-reports').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }}
+    >
+        Maintenance Reports
+    </a>
+</li>
         <li>Notifications</li>
     </ul>
 </nav>
@@ -191,7 +206,7 @@ function AssignedCleaningTasks({staff}) {
                     </div>
                 </div>
 
-                            {/* Cleaning Reports Section */}
+                  {/* Cleaning Reports Section */}
                 <div className="staff-report-section" id="cleaning-reports">
 
                     <h2>Cleaning Reports</h2>
@@ -215,7 +230,8 @@ function AssignedCleaningTasks({staff}) {
                                     reports.map(report => (
                                     <tr key={report.cleaning_id}>
                                     <td>{report.cleaning_id}</td>
-                                    <td>{report.completed_at}</td>
+                                    <td>{new Date(report.completed_at).toLocaleDateString('en-GB', {
+                                        timeZone: 'Asia/Manila'})}</td>
                                     <td>{report.room_condition}</td>
                                     </tr>
                                 ))
@@ -233,9 +249,17 @@ function AssignedCleaningTasks({staff}) {
                         </table>
 
                     </div>
+                    </div>
+                     {/* Maintenance Reports Section */}
+                    <div className="staff-report-section" id="maintenance-reports">
 
+                    <h2>Maintenance Reports</h2>
+
+                    <p>Submit a report about facility problems.</p>
+
+                    <MaintenanceReportForm staffId={staffId} />
                 </div>
-              </main>
+            </main>
         </div>
     );
 }

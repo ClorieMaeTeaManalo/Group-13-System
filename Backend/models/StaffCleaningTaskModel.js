@@ -13,13 +13,13 @@ export const getCleaningTasks = async (staffId) => {
             r.check_in,
             r.check_out,
             r.guests,
-            u.name AS customer_name,
-            u.phone
+            c.name AS customer_name,
+            c.contact_number AS phone
         FROM cleaning_reports cr
         LEFT JOIN reservations r
             ON cr.reservation_id = r.reservation_id
-        LEFT JOIN users u
-            ON r.user_id = u.user_id
+        LEFT JOIN customers c
+        ON r.customer_id = c.customer_id
         WHERE cr.staff_id = ?
         ORDER BY cr.created_at DESC
     `;

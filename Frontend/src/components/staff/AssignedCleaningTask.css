@@ -53,6 +53,13 @@
     font-size: 13px;
 }
 
+/* Vertical alignment para hindi nakalutang sa gitna*/
+.staff-task-table th,
+.staff-task-table td {
+    vertical-align: top;
+}
+
+
 .staff-task-table td {
     padding: 14px;
     border-bottom: 1px solid #eadbc9;
