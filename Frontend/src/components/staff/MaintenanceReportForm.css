@@ -1,0 +1,104 @@
+
+/* Main container */
+.maintenance-report-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    align-items: start;
+}
+
+/* Form and History sections */
+.maintenance-form-section,
+.maintenance-history-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-width: 0;
+}
+
+.maintenance-form-section h3,
+.maintenance-history-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333333;
+}
+
+/* Maintenance Form */
+.maintenance-report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.maintenance-report-form label {
+    font-weight: bold;
+    color: #333333;
+}
+
+.maintenance-report-form input,
+.maintenance-report-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.maintenance-report-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.maintenance-report-form button {
+    padding: 12px;
+    background-color: #694638;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.maintenance-report-form button:hover {
+    background-color: #694638;
+}
+
+/* Maintenance History */
+.maintenance-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.maintenance-history-card {
+    padding: 15px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    overflow-wrap: anywhere;
+}
+
+.maintenance-history-card h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #694638;
+}
+
+.maintenance-history-card p {
+    margin: 7px 0;
+    font-size: 14px;
+    color: #444444;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .maintenance-report-container {
+        grid-template-columns: 1fr;
+    }
+}

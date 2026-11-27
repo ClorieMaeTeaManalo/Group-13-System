@@ -80,17 +80,3 @@
         padding: 15px;
     }
 }
-
-.cleaning-report-form {
-    overflow: hidden;
-}
-
-.cleaning-report-form input,
-.cleaning-report-form textarea {
-    box-sizing: border-box;
-    max-width: 100%;
-}
-
-.cleaning-report-form textarea {
-    resize: none;
-}
