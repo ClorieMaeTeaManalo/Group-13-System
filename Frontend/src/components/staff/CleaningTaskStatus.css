@@ -1,32 +1,37 @@
-.cleaning-status {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+/* Status Badge (hal. pending, completed, in-progress) */
+.staff-task-table td:nth-child(6) {
+    text-transform: capitalize;
+    font-weight: 600;
 }
 
-.cleaning-status select {
-    padding: 9px;
-    border: 1px solid #d8c5b2;
-    border-radius: 7px;
-    background-color: #fffdf9;
+/* Update Status Column (Select + Button) */
+.staff-task-table select {
+    width: 100%;
+    min-width: 120px;
+    padding: 8px 10px;
+    border: 1px solid #d5c2ad;
+    border-radius: 8px;
+    background-color: #fff8ed;
     color: #694638;
-}
-
-.cleaning-status button {
-    background-color: #694638;
-    color: white;
-    padding: 9px 13px;
-    border: none;
-    border-radius: 7px;
+    font-size: 13px;
+    margin-bottom: 8px;
     cursor: pointer;
+    outline: none;
 }
 
-.cleaning-status button:hover {
-    background-color: #8c604b;
+.staff-task-table select:focus {
+    border-color: #694638;
 }
 
-.cleaning-status p {
-    color: #287a45;
-    font-size: 12px;
-    margin: 0;
+.staff-task-table td:nth-child(7) button {
+    width: 100%;
+    padding: 8px 12px;
+    background-color: #694638;
+    color: #fff8ed;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
