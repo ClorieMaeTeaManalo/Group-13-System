@@ -82,6 +82,15 @@ const [maintenanceUpdateMessage, setMaintenanceUpdateMessage] = useState('');
 const [maintenanceUpdateError, setMaintenanceUpdateError] = useState('');
 const [maintenanceUpdateLoading, setMaintenanceUpdateLoading] = useState(false);
 
+// Payment Information states
+const [paymentInfo, setPaymentInfo] = useState([]);
+const [paymentMethod, setPaymentMethod] = useState('GCash');
+const [accountName, setAccountName] = useState('');
+const [accountNumber, setAccountNumber] = useState('');
+const [qrImage, setQrImage] = useState(null);
+const [paymentMessage, setPaymentMessage] = useState('');
+const [paymentError, setPaymentError] = useState('');
+
   // Count cleaning requests based on their status
   const pendingCleaningCount = cleaningRequestList.filter(
     (request) => request.status === 'pending'
@@ -241,6 +250,69 @@ const resolvedMaintenanceCount = maintenanceReportList.filter(
       setMaintenanceReportLoading(false);
     }
   };
+
+  // Get saved resort payment information
+const fetchPaymentInfo = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/payment');
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error('Failed to load payment information.');
+    }
+
+    setPaymentInfo(result.data);
+
+  } catch (error) {
+    console.error('Fetch Payment Information Error:', error);
+    setPaymentError(error.message);
+  }
+};
+
+// Save or update resort payment information
+const handleSavePaymentInfo = async (e) => {
+  e.preventDefault();
+
+  setPaymentMessage('');
+  setPaymentError('');
+
+  // Prepare the payment information
+  const formData = new FormData();
+
+  formData.append('paymentMethod', paymentMethod);
+  formData.append('accountName', accountName);
+  formData.append('accountNumber', accountNumber);
+
+  // Add QR image only if a new image was selected
+  if (qrImage) {
+    formData.append('qrImage', qrImage);
+  }
+
+  try {
+    const response = await fetch('http://localhost:3000/api/payment', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.message || 'Failed to save payment information.'
+      );
+    }
+
+    setPaymentMessage(result.message);
+    setQrImage(null);
+
+    // Refresh the saved payment information
+    await fetchPaymentInfo();
+
+  } catch (error) {
+    console.error('Save Payment Information Error:', error);
+    setPaymentError(error.message);
+  }
+};
 
   // Update reservation status
   const handleUpdateReservationStatus = async (reservationId, status) => {
@@ -404,6 +476,12 @@ const handleUpdateMaintenanceReport = async () => {
       setStatusMessage('');
       setStatusError('');
     }
+
+    if (activePage === 'Payment Information') {
+  fetchPaymentInfo();
+  setPaymentMessage('');
+  setPaymentError('');
+}
   }, [activePage]);
 
   // Open delete confirmation modal
@@ -1167,13 +1245,116 @@ activePage === 'Maintenance Reports'
     )}
   </div>
 )}
+        
+{/* Payment Information Page */}
+{activePage === 'Payment Information' && (
+  <div
+  className="payment-information-page"
+  style={{
+    backgroundImage: `linear-gradient(rgba(10, 35, 45, 0.35), rgba(10, 35, 45, 0.35)), url(${backgroundImage})`
+  }}
+>
+    <h2>Payment Information</h2>
+    <p>Manage the resort's payment details.</p>
+
+    <form onSubmit={handleSavePaymentInfo}>
+
+      <label>Payment Method</label>
+      <select
+        value={paymentMethod}
+        onChange={(e) => {
+          const selectedMethod = e.target.value;
+          setPaymentMethod(selectedMethod);
+
+          const selectedInfo = paymentInfo.find(
+            (payment) => payment.payment_method === selectedMethod
+          );
+
+          setAccountName(selectedInfo?.account_name || '');
+          setAccountNumber(selectedInfo?.account_number || '');
+          setQrImage(null);
+          setPaymentMessage('');
+          setPaymentError('');
+        }}
+      >
+        <option value="GCash">GCash</option>
+        <option value="Maya">Maya</option>
+        <option value="MariBank">MariBank</option>
+      </select>
+
+      <br /><br />
+
+      <label>Account Name</label>
+      <input
+        type="text"
+        value={accountName}
+        onChange={(e) => setAccountName(e.target.value)}
+        placeholder="Enter account name"
+      />
+
+      <br /><br />
+
+      <label>Account Number</label>
+      <input
+        type="text"
+        value={accountNumber}
+        onChange={(e) => setAccountNumber(e.target.value)}
+        placeholder="Enter account number"
+      />
+
+      <br /><br />
+
+      <label>Upload QR Code</label>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setQrImage(e.target.files[0])}
+      />
+
+      <br /><br />
+
+      <h3>Current QR Code</h3>
+
+      {paymentInfo.find(
+        (payment) => payment.payment_method === paymentMethod
+      )?.qr_image ? (
+        <img
+          src={`http://localhost:3000/uploads/${
+            paymentInfo.find(
+              (payment) => payment.payment_method === paymentMethod
+            ).qr_image
+          }`}
+          alt={`${paymentMethod} QR Code`}
+          style={{
+            width: '200px',
+            height: '200px',
+            objectFit: 'contain'
+          }}
+        />
+      ) : (
+        <p>No QR code uploaded yet.</p>
+      )}
+
+      {paymentMessage && <p>{paymentMessage}</p>}
+      {paymentError && <p>{paymentError}</p>}
+
+      <br />
+
+      <button type="submit">
+        Save Payment Information
+      </button>
+
+    </form>
+  </div>
+)}
 
         {/* Display Other Admin Pages */}
         {activePage !== 'Dashboard' &&
           activePage !== 'Staff Accounts' &&
           activePage !== 'Reservations' &&
           activePage !== 'Cleaning Requests' &&
-          activePage !== 'Maintenance Reports' && (
+          activePage !== 'Maintenance Reports' && 
+          activePage !== 'Payment Information' &&(
             <h2>{activePage}</h2>
           )}
 
