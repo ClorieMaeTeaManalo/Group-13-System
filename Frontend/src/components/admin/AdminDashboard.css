@@ -1522,3 +1522,174 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/*PAYMENT INFORMATION PAGE */
+
+.payment-information-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px 30px;
+  margin: 0;
+  box-sizing: border-box;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Page Heading */
+.payment-information-page h2 {
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.payment-information-page > p {
+  color: #ffffff;
+  font-size: 15px;
+  text-align: center;
+  margin-bottom: 25px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Glass Form Container */
+.payment-information-page form {
+  width: 100%;
+  max-width: 520px;
+  padding: 35px;
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 18px;
+
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+/* Form Labels */
+.payment-information-page label {
+  display: block;
+  margin-bottom: 9px;
+
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Input and Select */
+.payment-information-page input,
+.payment-information-page select {
+  width: 100%;
+  padding: 13px 14px;
+  margin-bottom: 18px;
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.88);
+  color: #17445c;
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 9px;
+
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.payment-information-page input:focus,
+.payment-information-page select:focus {
+  border-color: #5bd0df;
+  box-shadow: 0 0 0 3px rgba(91, 208, 223, 0.2);
+}
+
+/* QR Code Heading */
+.payment-information-page h3 {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 12px;
+  margin-bottom: 12px;
+
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* QR Code Preview */
+.payment-information-page img {
+  display: block;
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+
+  margin: 15px auto;
+  padding: 10px;
+
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* No QR Message */
+.payment-information-page form p {
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Success and Error Messages */
+.payment-information-page form p:not(:only-child) {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Save Button */
+.payment-information-page button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 15px;
+
+  background: #176b83;
+  color: #ffffff;
+
+  border: none;
+  border-radius: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.payment-information-page button:hover {
+  background: #104b60;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .payment-information-page {
+    padding: 30px 15px;
+  }
+
+  .payment-information-page form {
+    padding: 22px;
+  }
+
+  .payment-information-page h2 {
+    font-size: 25px;
+  }
+}
