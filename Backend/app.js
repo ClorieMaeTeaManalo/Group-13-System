@@ -30,6 +30,9 @@ import reservationRoutes from './routes/reservationRoutes.js';
 // Staff Account Creation Routes
 import accountRoutes from './routes/AccountRoutes.js';
 
+// Import payment routes
+import paymentRoutes from './routes/paymentRoutes.js';
+
 // Create Express application
 const app = express();
 
@@ -64,6 +67,12 @@ app.use('/api/reservations', reservationRoutes);
 
 // Staff Account Creation Routes
 app.use('/api/accounts', accountRoutes);
+
+// Connect payment information routes
+app.use('/api/payment', paymentRoutes);
+
+// Allow access to uploaded payment QR code images
+app.use('/uploads', express.static('uploads'));
 
 // Test Route
 app.get('/', (req, res) => {
